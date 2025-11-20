@@ -1,0 +1,15 @@
+/* ==========================================
+            FLORA CSS Library
+      Autor: Santiago Elías Formichelli
+    Framework Frontend para proyectos web
+=========================================== */
+
+/* Esta hoja está para agregar algunas condiciones que contradigan o cambien cosas
+de la librería */
+
+.system-info {
+  grid-column: span 12;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

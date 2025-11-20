@@ -1,0 +1,320 @@
+/* ==========================================
+            FLORA CSS Library
+      Autor: Santiago Elías Formichelli
+    Framework Frontend para proyectos web
+=========================================== */
+
+/* Fondo de la tabla y texto base */
+table.dataTable {
+  background-color: var(--color-primario);
+  color: var(--color-texto);
+  font-size: 16px;
+  font-weight: 400;
+  border-collapse: collapse;
+  border: none;
+}
+
+/* Cabecera de la tabla */
+table.dataTable thead {
+  background-color: var(--color-primario);
+  color: var(--color-superficie);
+}
+
+table.dataTable thead th {
+  border-bottom: 2px solid var(--color-terciario);
+  padding: 0.75rem;
+  text-align: center!important;
+}
+
+/* Filas alternadas */
+table.dataTable tbody tr:nth-child(even) {
+  background-color: var(--color-fondo);
+}
+
+table.dataTable tbody tr:nth-child(odd) {
+  background-color: var(--color-extra);
+}
+
+/* Hover fila */
+table.dataTable tbody tr:hover {
+  background-color: rgb(from var(--color-secundario) r g b / 0.9);
+  color: var(--color-fondo);
+}
+
+/* Botones de paginación */
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+  background-color: var(--color-secundario);
+  color: var(--color-terciario) !important;
+  border: 1px solid var(--color-extra);
+  padding: 0.5rem 0.75rem;
+  margin: 0 0.2rem;
+  border-radius: 4px;
+  transition: 0.2s ease;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+  background-color: var(--color-extra);
+  color: var(--color-fondo) !important;
+}
+
+/* Página activa */
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+  background-color: var(--color-terciario);
+}
+
+/* Filtro de búsqueda */
+.dataTables_wrapper .dataTables_filter input {
+  background-color: var(--color-fondo);
+  padding: 0.5rem;
+  color: var(--color-texto);
+  border-radius: 4px;
+}
+
+/* Select de cantidad de registros */
+.dataTables_wrapper .dataTables_length select {
+  background-color: var(--color-superficie) !important;
+  padding: 0.4rem;
+  border-radius: 4px;
+}
+
+/* Información de resultados */
+.dataTables_wrapper .dataTables_info {
+  color: var(--color-terciario);
+  margin-top: 1rem;
+}
+
+/* Columna principal ordenada */
+table.dataTable tbody td.sorting_1 {
+  background-color: rgb(from var(--color-primario) r g b / 0.04);
+}
+
+/* Color de flechitas */
+table.dataTable thead .sorting::after,
+table.dataTable thead .sorting_asc::after,
+table.dataTable thead .sorting_desc::after,
+table.dataTable thead .sorting::before,
+table.dataTable thead .sorting_asc::before,
+table.dataTable thead .sorting_desc::before {
+  color: var(--color-superficie);
+  opacity: 1;
+}
+
+.filtros select {
+  width: 100%;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+  opacity: 1 !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  background-color: var(--color-terciario) !important; /* Fondo oscuro */
+  color: var(--color-secundario) !important; /* Texto claro */
+  padding: 6px 12px !important;
+  margin: 0 2px !important;
+  border-radius: 6px !important;
+  font-weight: normal !important;
+  transition: all 0.2s ease-in-out !important;
+  cursor: pointer !important;
+  text-indent: 0 !important;
+  user-select: auto !important;
+  visibility: visible !important;
+}
+
+/* Hijos directos también con texto claro */
+.dataTables_wrapper .dataTables_paginate .paginate_button > * {
+  color: var(--color-secundario) !important;
+  text-indent: 0 !important;
+  user-select: auto !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  font-size: inherit !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+  background-color: var(--color-primario) !important;
+  color: white !important;
+  border-color: var(--color-primario) !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+  background-color: var(--color-contraste) !important;
+  border-color: var(--color-primario) !important;
+  font-weight: bold !important;
+  cursor: default !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+  opacity: 0.6 !important;
+  background-color: #FCFCFC !important; /* gris oscuro para deshabilitado */
+  border-color: #444 !important;
+  cursor: not-allowed !important;
+  box-shadow: none !important;
+}
+
+.dataTables_wrapper .dataTables_info {
+  position: relative;
+  top: -15px!important; /* sube 6 píxeles */
+}
+
+.dataTables_wrapper .dataTables_length,
+.dataTables_wrapper .dataTables_filter {
+  margin-bottom: 12px; /* separa controles de la tabla */
+}
+
+#miTabla_paginate span .current {
+  color: white !important;
+}
+
+
+
+/* Asegura que la tabla no tenga espaciado entre celdas */
+table.dataTable {
+  border-collapse: collapse !important;
+  border-spacing: 0 !important;
+}
+
+/* Elimina el borde inferior del encabezado principal */
+thead tr:first-child th {
+  border-bottom: none !important;
+  padding-bottom: 0px !important;
+}
+
+/* Elimina borde superior e inferior de la fila de filtros */
+thead tr.filtros th {
+  border-top: none !important;
+  border-bottom: none !important;
+  padding-top: 0px !important;
+  padding-bottom: 17px !important;
+  vertical-align: top;
+}
+
+/* Ajustes finos al Select2 */
+thead tr.filtros th .select2-container {
+  margin-top: 2px !important;  /* Sube más el filtro */
+  margin-bottom: 0px !important;
+}
+
+/* Elimina bordes del select visible */
+thead tr.filtros th .select2-selection {
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  background-color: transparent !important;
+}
+
+/* Ajusta la altura del contenedor Select2 para que no meta espacio extra */
+thead tr.filtros th .select2-selection--single {
+  height: auto !important;
+  min-height: 24px !important;
+  line-height: normal !important;
+}
+
+/* Opcional: achica la fuente si te parece mucho espacio */
+thead tr.filtros th .select2-selection__rendered {
+  font-size: 0.85rem !important;
+  padding: 0 !important;
+}
+
+/* Restaurar fondo del select visible de Select2 */
+thead tr.filtros th .select2-selection {
+  background-color: var(--color-superficie) !important; /* o el color que tenías antes */
+  border-radius: 4px !important;
+  padding: 1px 1px !important;
+}
+
+.select2-container--open .select2-dropdown {
+  background-color: var(--color-extra);
+  border: 3px solid var(--color-primario);
+  border-radius: 8px;
+  z-index: 9999;
+}
+
+/* Cada opción */
+.select2-results__option {
+  padding: 6px 12px;
+  font-size: 14px;
+  color: var(--color-blanco);
+  background-color: transparent;
+  transition: background-color 0.2s;
+}
+
+/* Opción seleccionada al pasar el mouse o con teclado */
+.select2-results__option--highlighted {
+  background-color: var(--color-primario);
+  color: white;
+}
+
+/* Input de búsqueda dentro del dropdown */
+.select2-search__field {
+  padding: 6px 10px;
+  border: 1px solid var(--color-extra);
+  border-radius: 4px;
+  background-color: white;
+  color: var(--color-terciario);
+}
+
+/* Placeholder en el input */
+.select2-search__field::placeholder {
+  color: var(--color-primario);
+  opacity: 0.7;
+}
+
+/* Apunta al select de cantidad de registros de DataTables */
+.dataTables_length select {
+  color: var(--color-contraste) !important;         /* Cambia color del texto */
+  background-color: var(--color-secundario)  !important;          /* Fondo claro (si querés) */
+  border: 1px solid var(--color-contraste) !important;
+  border-radius: 5px;
+  padding: 4px 6px;
+  font-weight: bold;
+}
+
+.select2-selection__clear {
+  margin-top: -1px !important; /* Ajustá el valor a tu gusto */
+  color: var(--color-extra) !important;
+}
+
+.select2-selection__clear span {
+  font-size: 24px;
+}
+
+td a {
+  color: var(--color-texto);
+}
+
+td a:hover {
+  color: var(--color-fondo);
+  text-decoration: none;
+}
+
+/* Aplica a toda la tabla */
+#miTabla {
+  table-layout: auto !important;
+  width: 100% !important;
+  max-width: 100%;
+}
+
+#miTabla td {
+  white-space: normal !important;
+  word-wrap: break-word;
+  vertical-align: middle !important;
+  border: 1px solid var(--color-contraste);
+}
+
+.td-verde {
+  background-color: #23B848;
+  color: white;
+  font-weight: 600;
+}
+
+.td-azul {
+  background-color: #232FB8;
+  color: white;
+  font-weight: 600;
+}
+
+.td-rojo {
+  background-color: #B82323;
+  color: white;
+  font-weight: 600;
+}

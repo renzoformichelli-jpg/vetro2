@@ -1,0 +1,105 @@
+/* ==========================================
+            FLORA CSS Library
+      Autor: Santiago Elías Formichelli
+    Framework Frontend para proyectos web
+=========================================== */
+ 
+/* Box sizing global */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* Roles de display HTML5 para navegadores antiguos */
+article, aside, details, figcaption, figure, footer, header, main,
+menu, nav, section, summary {
+  display: block;
+}
+
+/* Estilos base para html y body */
+html, body {
+  height: 100%;
+  line-height: 1.5;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+  color: #000;
+}
+
+/* Reset de estilos para enlaces */
+a {
+  background-color: transparent;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+/* Remover estilos por defecto de listas */
+ol, ul {
+  list-style: none;
+}
+
+/* Tablas */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* Imágenes, videos y otros elementos multimedia */
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Elementos de formulario */
+input, button, textarea, select {
+  font-family: inherit;
+  font-size: 100%;
+  line-height: 1.15;
+  margin: 0;
+  color: inherit;
+  background: none;
+  border: none;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+/* Botones */
+button {
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+/* Eliminar borde y padding interno en Firefox */
+button::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+/* Remover outline de foco */
+:focus {
+  outline: none;
+}
+
+/* Reglas horizontales */
+hr {
+  box-sizing: content-box;
+  height: 0;
+  overflow: visible;
+}
+
+/* Atributo hidden */
+[hidden] {
+  display: none !important;
+}

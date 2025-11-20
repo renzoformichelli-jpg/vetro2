@@ -1,0 +1,140 @@
+/* ==========================================
+            FLORA CSS Library
+      Autor: Santiago Elías Formichelli
+    Framework Frontend para proyectos web
+=========================================== */
+
+header {
+  display: grid;
+  grid-template-rows: auto auto;
+  background: var(--color-primario);
+  color: #EDEDED;
+}
+
+/* ==== Fila 1: Información del sistema ==== */
+.system-info {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  align-items: center;
+  text-align: center;
+  gap: 0.5rem;
+  padding: 0.8rem;
+  background-color: #242424;
+  background-image: radial-gradient(rgba(255,255,255,0.02) 2px, transparent 1px);
+  background-size: 6px 6px;
+  box-shadow: 0 8px 10px rgba(0,0,0,0.4);
+}
+
+.system-info .logo {
+  grid-column: span 4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.system-info .logo img {
+  height: 5rem;
+  border-radius: 50%;
+  box-shadow: 0 0 10px 8px #1A1A1A;
+  border: solid 2px var(--color-primario);
+}
+
+.system-info .system-name {
+  grid-column: span 4;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.system-info .system-version {
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+.menu-usuario {
+  grid-column: span 4;
+  align-items: center;
+  gap: 10px;
+}
+
+.nombre-usuario {
+  color: #f5f5f5;
+  margin-bottom: 0.5rem;
+}
+
+.nombre-usuario .name {
+  font-weight: bolder;
+}
+
+.boton-cerrar-sesion {
+  background-color: var(--color-secundario);
+  border: 1px solid var(--color-extra);
+  padding: 8px 12px;
+  color: var(--color-superficie);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-size: 15px;
+}
+
+.boton-cerrar-sesion:hover {
+  background-color: var(--color-primario);
+}
+
+/* ==== Fila 2: Botones principales ==== */
+.button-grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;             /* espacio fijo entre botones */
+  padding: 0.8rem;
+  margin: 1rem auto;
+  width: fit-content;       /* el contenedor se adapta al contenido */
+  max-width: 100%;
+  box-sizing: border-box;
+  transition: all 0.3s ease-in-out;
+}
+
+/* === Botones individuales === */
+.button-grid a,
+.button-grid button {
+  width: 185px;             /* tamaño fijo */
+  height: 90px;             /* altura fija */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #E8E8E8;
+  color: black;
+  font-size: 0.85rem;
+  font-weight: 400;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.2s, transform 0.2s;
+  padding: 0.5rem;
+  margin-top: 0.3rem;
+}
+
+.button-grid button .icono {
+  font-size: 2rem;
+  margin-bottom: 0.4rem;
+  margin-top: -0.4rem;
+}
+
+/* === Efectos hover === */
+.button-grid a:hover,
+.button-grid button:hover {
+  background: #D4D4D4;
+  text-decoration: none;
+  opacity: 1 !important;
+}
+
+/* ==== Fila 3: Selector de paletas ==== */
+#paletas {
+  border: none;
+  border-bottom: 2px solid var(--color-extra);
+  border-radius: 0;
+  margin-bottom: -0.1rem;
+  margin-top: 0.4rem;
+}

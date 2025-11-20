@@ -1,0 +1,245 @@
+/* ==========================================
+            FLORA CSS Library
+      Autor: Santiago Elías Formichelli
+    Framework Frontend para proyectos web
+=========================================== */
+
+.alerta {
+  position: relative;
+  padding: 1rem 1.5rem;
+  padding-left: 4.5rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+  font-size: 1rem;
+  font-weight: bolder;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 4px solid transparent;
+  animation: fadeInDown 0.3s ease-out;
+  color: var(--color-texto);
+}
+
+.alerta::before {
+  content: '';
+  position: absolute;
+  left: 1rem;
+  width: 40px;
+  height: 40px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  animation: icono-aparecer 0.5s ease-out forwards;
+}
+
+/* Éxito */
+.alerta.exito::before {
+  background-color: var(--color-texto);
+  mask-image: url('../iconos/data/circle-check-big.svg');
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-image: url('../iconos/data/circle-check-big.svg'); /* Safari */
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+}
+
+/* Error */
+.alerta.error::before {
+  background-color: var(--color-texto);
+  mask-image: url('../iconos/data/x.svg');
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-image: url('../iconos/data/x.svg'); /* Safari */
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+}
+
+/* Advertencia */
+.alerta.advertencia::before {
+  background-color: var(--color-texto);
+  mask-image: url('../iconos/data/triangle-alert.svg');
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-image: url('../iconos/data/triangle-alert.svg'); /* Safari */
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+}
+
+/* Información */
+.alerta.informacion::before {
+  background-color: var(--color-texto);
+  mask-image: url('../iconos/data/info.svg');
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-image: url('../iconos/data/info.svg'); /* Safari */
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+}
+
+/* Estados */
+.alerta.exito {
+  background-color: var(--color-exito);
+}
+
+.alerta.error {
+  background-color: var(--color-error);
+}
+
+.alerta.advertencia {
+  background-color: var(--color-advertencia);
+}
+
+.alerta.informacion {
+  background-color: var(--color-informacion);
+}
+
+/* Animación de entrada */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes icono-aparecer {
+  0% {
+    transform: scale(2.1);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.alerta::before {
+  animation: icono-aparecer 1.5s ease-out forwards;
+  color: var(--color-exito) !important; /* color final */
+}
+
+
+/* A partir de acá, son estilos para alertas emergentes */
+
+
+.alerta-emergente-fondo {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  overflow: hidden;
+  backdrop-filter: blur(5px);
+}
+
+.alerta-emergente-fondo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: var(--color-contraste);
+  opacity: 0.4;
+  z-index: 0;
+}
+
+.alerta-emergente {
+  position: relative;
+  background-color: var(--color-secundario);
+  color: var(--color-fondo);
+  borsder: 3px solid var(--color-primario);
+  border-radius: 20px;
+  padding: 2rem;
+  width: 90%;
+  max-width: 400px;
+  animation: fade-in 0.8s ease-out;
+  boxd-shadow: 0 0 40px 0 var(--color-primario);
+  z-index: 1; /* para que quede encima del ::before */
+}
+
+.alerta-emergente-icono {
+  text-align: center;
+  margin-bottom: 2rem;
+  animation: reducir 1s ease-out;
+}
+
+@keyframes reducir {
+  0% {
+    transform: rotate(180deg);
+    opacity: 0;
+  }
+  60% {
+    transform: rotate(20deg);
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.alerta-emergente-texto {
+  font-size: 1.1rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.alerta-emergente-botones {
+  display: flex;
+  justify-content: space-around;
+  gap: 1rem;
+}
+
+.alerta-emergente-boton {
+  font-size: 0.95rem;
+  flex: 1;
+  padding-block: 0.6rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.alerta-emergente-boton.si {
+  background-color: var(--color-contraste);
+  color: var(--color-superficie);
+}
+
+.alerta-emergente-boton.si:hover {
+  color: var(--color-contraste);
+  background-color: var(--color-superficie);
+}
+
+.alerta-emergente-boton.no {
+  color: var(--color-contraste);
+  background-color: var(--color-superficie);
+}
+
+.alerta-emergente-boton.no:hover {
+  background-color: var(--color-contraste);
+  color: var(--color-superficie);
+}
+
+/* Animaciones */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.4);
+  } to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

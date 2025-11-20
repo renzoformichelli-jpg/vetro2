@@ -1,0 +1,108 @@
+/* ==========================================
+            FLORA CSS Library
+      Autor: Santiago Elías Formichelli
+    Framework Frontend para proyectos web
+=========================================== */
+
+/* Container principal */
+.contenedor {
+  width: 97%;
+  margin: 0 auto;
+  padding: 10px;
+  padding-bottom: 30px;
+}
+
+/* Contenedor flexible para columnas mamushka */
+.columnas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+/* Cada columna mamushka flexible y anidable */
+.columnas > div {
+  flex: 1 1 calc((100% / 6) - 50px); /* Máximo 6 columnas con gap */
+  min-width: 193px; /* Si la pantalla es muy chica, baja a menos columnas */
+  box-sizing: border-box;
+  padding-block: 1rem;
+  padding-inline: 2rem;
+  border-radius: 12px;
+  background-color: var(--color-superficie);
+  outline: none;
+  border: 2px solid var(--color-extra);
+  margin-block: 1rem;
+}
+
+.col1 { flex: 0 0 16.666%; max-width: 16.666%; }
+.col2 { flex: 0 0 33.333%; max-width: 33.333%; }
+.col3 { flex: 0 0 50%; max-width: 50%; }
+.col4 { flex: 0 0 66.666%; max-width: 66.666%; }
+.col5 { flex: 0 0 83.333%; max-width: 83.333%; }
+.col6 { flex: 0 0 100%;  max-width: 100%; }
+
+/* Centra un div horizontalmente */
+.centrar-div {
+  display: block;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.centrar-div-vertical {
+  display: flex;
+  align-items: center; /* centra verticalmente */
+  justify-content: center; /* opcional, centra también horizontalmente */
+  border: 1px solid #ccc;
+}
+
+.centrar-texto {
+  text-align: center;
+}
+
+.spinner-fondo {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  background-color: var(--color-extra);
+  backdrop-filter: blur(5px);
+}
+
+.spinner-fondo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.6;
+  z-index: -1; 
+}
+
+/* Contenedor interno */
+.spinner-contenido {
+  text-align: center;
+}
+
+/* Animación del spinner */
+.spinner {
+  border: 6px solid var(--color-secundario);
+  border-top: 6px solid var(--color-terciario);
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  animation: girar 1s linear infinite;
+  margin: 0 auto 1rem auto;
+}
+
+@keyframes girar {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.spinner-texto {
+  font-size: 2rem;
+  color: var(--color-contraste);
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-shadow: 0 0 18px var(--color-extra);
+}

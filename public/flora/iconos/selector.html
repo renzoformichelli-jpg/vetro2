@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Visor de Íconos</title>
+  <link rel="stylesheet" href="../css/reset.css" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/layout.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="visor-iconos.css" />
+</head>
+<body>
+  <div class="contenedor">
+    <div class="centrar-div columnas" style="margin-bottom: 4rem; margin-top: 2rem;">
+      <div class="buscador" style="padding: 2rem; padding-top: 1.2rem;">
+        <div class="centrar-div"><i class="icono folder-search 80"></i></div>
+        <h1 style="text-align: center;">Selector de íconos</h1>
+        <p>Estos son los íconos alojados en la carpeta "/icons", y podés reemplazarlos manualmente por los SVG que quieras. <br> El framework trae por defecto los íconos de Lucide Icons (Version 0.532.0).</p>
+        <input class="form-input" type="text" id="search" placeholder="Buscar ícono..." autocomplete="off" />
+      </div>
+    </div>
+
+    <div id="icon-grid"></div>
+
+    <br>
+
+  </div>
+
+  <script src="visor-iconos.js"></script>
+
+</body>
+</html>

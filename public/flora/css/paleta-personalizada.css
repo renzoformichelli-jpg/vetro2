@@ -1,0 +1,22 @@
+/* ==========================================
+            FLORA CSS Library
+      Autor: Santiago Elías Formichelli
+    Framework Frontend para proyectos web
+=========================================== */
+
+/* Para hacer uso de este archivo, tenés que descomentar en el header, esta hoja de css.
+Recordá también desactivar el multipaletas, ya que no tendrá efecto si hacés un llamado a este archivo. */
+
+/* Paleta transformada a CSS */
+:root {
+  --color-primario: #73B2FF;        /* Tu color base */
+  --color-secundario: #1C3D80;      /* Profundidad, contraste oscuro */
+  --color-terciario: #A6D8FF;       /* Versión clara y suave del primario */
+  --color-contraste: #FF73FF;       /* Color vibrante, neón para resaltar */
+  --color-extra: #44FFD9;           /* Otro neón para acentos y detalles */
+
+  --color-fondo: #E0F4FF;           /* Fondo claro, relacionado con el primario */
+  --color-superficie: #D6F0FF;      /* Superficies intermedias */
+  --color-borde: #A3CFF5;           /* Bordes suaves que se integran */
+  --color-texto: #0F0F0F;           /* Texto principal */
+}

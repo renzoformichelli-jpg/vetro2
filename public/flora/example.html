@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pulsar Nexum</title> <!-- Esto se reemplaza por el nombre del programa -->
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/header.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/datatables.css" />
+  <link rel="stylesheet" href="css/alertas.css" />
+  <link rel="stylesheet" href="css/responsive.css" />  
+  <link rel="stylesheet" href="iconos/visor-iconos.css" />
+  <!-- <link rel="stylesheet" href="css/paleta-personalizada.css" />  Descomentar para usar una SOLA paleta-->
+
+  <!-- DataTables CSS -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+  <!-- Select CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+</head>
+
+<body>
+  <header>
+    <!-- Fila 1: Información del sistema -->
+    <div class="system-info">
+      <div class="logo">
+        <img src="img/logo.png" alt="Logo del sistema">
+      </div>
+      <div class="system-name">
+          Pulsar Nexum
+          <div class="system-version">Versión: 1.0.0</div>
+      </div>
+
+      <!--  @auth (laravel)  -->
+      <div class="menu-usuario">
+          <div class="nombre-usuario">
+               Bienvenido/a, <span class="name" >Santiago</span>
+          </div>
+          <div>
+            <form class="form-cerrar-sesion" method="POST" action="{{ route('logout') }}">
+              <!-- @csrf (laravel)  -->
+              <button type="submit" class="boton-cerrar-sesion"><i class="icono arrow-big-right-dash 15"></i> Cerrar sesión</button>
+            </form>
+          </div>            
+      </div>
+      <!--  @endauth (laravel)  -->
+    </div>
+
+    <!-- Fila 2: Botones de funciones -->
+    <div class="button-grid">
+      <a href="">
+          <button><span class="icono">🏠</span><span>Inicio</span></button>
+      </a>
+      <a href="">
+          <button><span class="icono">📋</span><span>Tareas</span></button>
+      </a>
+      <a href="">
+          <button><span class="icono">📱</span><span>Redes</span></button>
+      </a>
+      <a href="">
+          <button><span class="icono">📅</span><span>Agenda</span></button>
+      </a>
+      <a href="">
+          <button><span class="icono">📝</span><span>Plan de contenidos</span></button>
+      </a>
+      <a href="">
+          <button><span class="icono">🧑‍💻</span><span>Repositorios</span></button>
+      </a>
+      <a href="">
+          <button><span class="icono">🗂️</span><span>Google Drive</span></button>
+      </a>
+      <a href="">
+          <button><span class="icono">📚</span><span>Documentación</span></button>
+      </a>
+    </div>
+
+    <!-- Fila 3: Paleta de colores COMENTAR EN CASO DE USAR UNA SOLA PALETA -->
+    <div class="columnas">
+      <div id="paletas">
+        <div class="centrar-div">
+          <div id="selectorPaletas"></div>
+          <script src="js/paletas.js"></script>
+        </div>  
+      </div>
+    </div> 
+
+    <div id="spinner-carga" class="spinner-fondo">
+      <div class="spinner-contenido">
+        <div class="spinner"></div>
+        <p class="spinner-texto">Pulsar Nexum</p> <!-- Esto se reemplaza por el nombre del programa -->
+      </div>
+    </div>
+
+  </header>
+
+  <div class="contenedor">
+
+  <!-- De acá para arriba es el header que lo insertamos por include) -->
+
+    <div class="separador 50"></div> 
+
+    <h2 class="centrar-texto">Ejemplo de Migas de pan</h2>
+
+    <div class="migas-de-pan">
+      <a href="{{ route('inicio') }}" class="miga comienzo"><i class="icono house 22"></i> Inicio</a>
+      <a href="{{ route('paso1') }}" class="miga intermedia"><i class="icono clock-1 22"></i> Paso 1</a>
+      <a href="{{ route('paso2') }}" class="miga intermedia"><i class="icono atom 22"></i> Paso 2</a>
+      <a href="{{ route('paso3') }}" class="miga intermedia"><i class="icono bot 22"></i> Paso 3</a>
+      <a href="{{ route('paso4') }}" class="miga intermedia"><i class="icono brush 22"></i> Paso 4</a>
+      <a href="{{ route('paso5') }}" class="miga intermedia"><i class="icono bus 22"></i> Paso 5</a>
+      <a href="{{ route('paso6') }}" class="miga intermedia"><i class="icono car 22"></i> Paso 6</a>
+      <a href="{{ route('paso7') }}" class="miga intermedia"><i class="icono code 22"></i> Paso 7</a>
+      <a href="{{ route('paso8') }}" class="miga intermedia"><i class="icono cast 22"></i> Paso 8</a>
+      <a href="{{ route('actual') }}" class="miga final"><i class="icono bone 22"></i> Actual</a>
+    </div>
+
+    <div class="separador 40"></div>
+    <hr>
+    <div class="separador 40"></div>     
+
+    <h1>Encabezado H1</h1>
+    <h2>Encabezado H2</h2>
+    <h3>Encabezado H3</h3>
+    <h4>Encabezado H4</h4>
+    <h5>Encabezado H5</h5>
+    <h6>Encabezado H6</h6>
+
+    <div class="separador 40"></div>
+    <hr>
+    <div class="separador 40"></div> 
+
+    <p>Este párrafo incluye un <a href="#">enlace de ejemplo</a> para comprobar estilos y efectos hover.</p>
+
+    <div class="separador 40"></div>
+    <hr>
+    <div class="separador 40"></div> 
+
+    <h2>Ejemplo de tabla!</h2>
+    <div class="columnas">
+      <div class="tabla-responsive padding">
+        <table id="miTabla" class="display dataTable">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Email</th>
+            </tr>
+            <tr class="filtros">
+              <th><select class="filtro-columna"></select></th>
+              <th><select class="filtro-columna"></select></th>
+              <th><select class="filtro-columna"></select></th>
+            </tr>
+          </thead>
+            <tbody>
+              <tr><td>1</td><td>Usuario 1</td><td>usuario1@ejemplo.com</td></tr>
+              <tr><td>2</td><td>Usuario 2</td><td>usuario2@ejemplo.com</td></tr>
+              <tr><td>3</td><td>Usuario 3</td><td>usuario3@ejemplo.com</td></tr>
+              <tr><td>4</td><td>Usuario 4</td><td>usuario4@ejemplo.com</td></tr>
+              <tr><td>5</td><td>Usuario 5</td><td>usuario5@ejemplo.com</td></tr>
+              <tr><td>6</td><td>Usuario 6</td><td>usuario6@ejemplo.com</td></tr>
+              <tr><td>7</td><td>Usuario 7</td><td>usuario7@ejemplo.com</td></tr>
+              <tr><td>8</td><td>Usuario 8</td><td>usuario8@ejemplo.com</td></tr>
+              <tr><td>9</td><td>Usuario 9</td><td>usuario9@ejemplo.com</td></tr>
+              <tr><td>10</td><td>Usuario 10</td><td>usuario10@ejemplo.com</td></tr>
+              <tr><td>11</td><td>Usuario 11</td><td>usuario11@ejemplo.com</td></tr>
+              <tr><td>12</td><td>Usuario 12</td><td>usuario12@ejemplo.com</td></tr>
+              <tr><td>13</td><td>Usuario 13</td><td>usuario13@ejemplo.com</td></tr>
+              <tr><td>14</td><td>Usuario 14</td><td>usuario14@ejemplo.com</td></tr>
+              <tr><td>15</td><td>Usuario 15</td><td>usuario15@ejemplo.com</td></tr>
+              <tr><td>16</td><td>Usuario 16</td><td>usuario16@ejemplo.com</td></tr>
+              <tr><td>17</td><td>Usuario 17</td><td>usuario17@ejemplo.com</td></tr>
+              <tr><td>18</td><td>Usuario 18</td><td>usuario18@ejemplo.com</td></tr>
+              <tr><td>19</td><td>Usuario 19</td><td>usuario19@ejemplo.com</td></tr>
+              <tr><td>20</td><td>Usuario 20</td><td>usuario20@ejemplo.com</td></tr>
+              <tr><td>21</td><td>Usuario 21</td><td>usuario21@ejemplo.com</td></tr>
+              <tr><td>22</td><td>Usuario 22</td><td>usuario22@ejemplo.com</td></tr>
+              <tr><td>23</td><td>Usuario 23</td><td>usuario23@ejemplo.com</td></tr>
+              <tr><td>24</td><td>Usuario 24</td><td>usuario24@ejemplo.com</td></tr>
+              <tr><td>25</td><td>Usuario 25</td><td>usuario25@ejemplo.com</td></tr>
+              <tr><td>26</td><td>Usuario 26</td><td>usuario26@ejemplo.com</td></tr>
+              <tr><td>27</td><td>Usuario 27</td><td>usuario27@ejemplo.com</td></tr>
+              <tr><td>28</td><td>Usuario 28</td><td>usuario28@ejemplo.com</td></tr>
+              <tr><td>29</td><td>Usuario 29</td><td>usuario29@ejemplo.com</td></tr>
+              <tr><td>30</td><td>Usuario 30</td><td>usuario30@ejemplo.com</td></tr>
+              <tr><td>31</td><td>Usuario 31</td><td>usuario31@ejemplo.com</td></tr>
+              <tr><td>32</td><td>Usuario 32</td><td>usuario32@ejemplo.com</td></tr>
+              <tr><td>33</td><td>Usuario 33</td><td>usuario33@ejemplo.com</td></tr>
+              <tr><td>34</td><td>Usuario 34</td><td>usuario34@ejemplo.com</td></tr>
+              <tr><td>35</td><td>Usuario 35</td><td>usuario35@ejemplo.com</td></tr>
+              <tr><td>36</td><td>Usuario 36</td><td>usuario36@ejemplo.com</td></tr>
+            </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="separador 40"></div>
+    <hr>
+    <div class="separador 40"></div> 
+
+    <h2>Ejemplo de alertas</h2>
+    <div class="alerta exito">
+      <span class="alerta-texto">¡Operación realizada con éxito!</span>
+    </div>
+
+    <div class="alerta error">
+      <span class="alerta-texto">Operación fallida.</span>
+    </div>
+
+    <div class="alerta advertencia">
+      <span class="alerta-texto">Cuidado: revisar esto.</span>
+    </div>
+
+    <div class="alerta informacion">
+      <span class="alerta-texto">Se informa esto.</span>
+    </div>
+
+    <div class="separador 40"></div>
+    <hr>
+    <div class="separador 40"></div>
+
+    <h2>Ejemplo de alertas emergentes</h2>
+    <div class="columnas">
+      <div>
+        <form class="form-enviar" action="/ruta-de-enviar" method="POST">
+          <div class="centrar-div"><h3>Alerta enviar</h3></div>
+          <div class="centrar-div">
+            <button type="submit" id="btn-enviar" class="boton"><i class="icono send 22"></i>Enviar</button>
+          </div>
+        </form>
+      </div>
+      <div>
+        <form class="form-editar" action="/ruta-de-editar" method="POST">
+          <div class="centrar-div"><h3>Alerta editar</h3></div>
+          <div class="centrar-div">
+            <button type="submit" id="btn-editar" class="boton"><i class="icono save 22"></i>Editar</button>
+          </div>
+        </form>
+      </div>
+      <div>
+        <form class="form-eliminar" action="/ruta-de-eliminacion" method="POST">
+          <div class="centrar-div"><h3>Alerta eliminar</h3></div>
+          <div class="centrar-div">
+            <button type="submit" id="btn-eliminar" class="boton"><i class="icono circle-x 22"></i>Eliminar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="separador 40"></div>
+    <hr>
+    <div class="separador 40"></div>
+
+    <h2>6 columnas</h2>
+    <div class="columnas">
+      <div><p>Col 1</p></div>
+      <div><p>Col 2</p></div>
+      <div><p>Col 3</p></div>
+      <div><p>Col 4</p></div>
+      <div><p>Col 5</p></div>
+      <div><p>Col 6</p></div>
+    </div>
+
+    <div class="separador 40"></div> 
+
+    <h2>5 columnas</h2>
+    <div class="columnas">
+      <div><p>Col 1</p></div>
+      <div><p>Col 2</p></div>
+      <div><p>Col 3</p></div>
+      <div><p>Col 4</p></div>
+      <div><p>Col 5</p></div>
+    </div>
+
+    <div class="separador 40"></div> 
+
+    <h2>4 columnas</h2>
+    <div class="columnas">
+      <div><p>Col 1</p></div>
+      <div><p>Col 2</p></div>
+      <div><p>Col 3</p></div>
+      <div><p>Col 4</p></div>
+    </div>
+
+    <div class="separador 40"></div> 
+
+    <h2>3 columnas</h2>
+    <div class="columnas">
+      <div><p>Col 1</p></div>
+      <div><p>Col 2</p></div>
+      <div><p>Col 3</p></div>
+    </div>
+
+    <div class="separador 40"></div> 
+
+    <h2>2 columnas (con fondo transparente)</h2>
+    <div class="columnas">
+      <div class="transparente"><p>Col 1</p></div>
+      <div class="transparente"><p>Col 2</p></div>
+    </div>
+
+    <div class="separador 40"></div> 
+
+    <h2>1 columna</h2>
+    <div class="columnas">
+      <div><p>Col 1</p></div>
+    </div>
+
+    <div class="separador 40"></div>
+    <hr>
+    <div class="separador 40"></div>
+
+    <h2>4 columnas (con espacio manual)</h2>
+    <div class="columnas">
+      <div class="col2"><p>Col 1</p></div>
+      <div class="col1"><p>Col 2</p></div>
+      <div class="col2"><p>Col 3</p></div>
+      <div class="col1"><p>Col 4</p></div>
+    </div>
+
+    <div class="separador 40"></div> 
+
+    <h2>3 columnas (con espacio manual)</h2>
+    <div class="columnas">
+      <div class="col1"><p>Col 1</p></div>
+      <div class="col3"><p>Col 2</p></div>
+      <div class="col2"><p>Col 3</p></div>
+    </div>
+
+    <div class="separador 40"></div>
+    <hr>
+    <div class="separador 40"></div>
+
+    <h2>Ejemplo de botones</h2>
+    <div class="columnas">
+      <div class="columnas">
+        <div class="transparente">
+          <div class="centrar-div">
+            <a href="#" class="boton centrar-elemento">
+              <i class="icono send 22"></i> Botón primario con ícono
+            </a>
+          </div>
+        </div>  
+        <div class="transparente">
+          <div class="centrar-div">
+            <a href="#" class="boton2 centrar-elemento">
+              <i class="icono send 22"></i> Botón secundario con ícono
+            </a>
+          </div>       
+        </div> 
+        <div class="transparente">
+          <div class="centrar-div">
+            <a href="#" class="boton centrar-elemento">
+              Botón primario sin ícono
+            </a>
+          </div>
+        </div>  
+        <div class="transparente">  
+          <div class="centrar-div">
+            <a href="#" class="boton2 centrar-elemento">
+              Botón secundario sin ícono
+            </a>
+          </div>       
+        </div>       
+      </div>      
+    </div>
+
+    <div class="separador 40"></div>
+    <hr>
+    <div class="separador 40"></div>
+
+    <div class="centrar-div"><h2>Ejemplo de formulario HTML</h2></div>
+
+    <div class="centrar-div">
+      <form class="formulario-base">
+        <div class="form-grupo">
+          <label for="nombre" class="form-label">Nombre</label>
+          <input type="text" id="nombre" name="nombre" class="form-input" placeholder="Tu nombre">
+        </div>
+
+        <div class="form-grupo">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" id="email" name="email" class="form-input" placeholder="tunombre@email.com">
+        </div>
+
+        <div class="form-grupo">
+          <label for="mensaje" class="form-label">Mensaje</label>
+          <textarea id="mensaje" name="mensaje" class="form-textarea" rows="4" placeholder="Escribí tu mensaje"></textarea>
+        </div>
+
+        <div class="centrar-div">
+          <button type="submit" class="boton centrar-elemento"><i class="icono send 22"></i> Enviar</button>
+        </div>
+      </form>
+    </div>  
+
+
+<!-- De acá para abajo es el footer que lo incorporamos por include -->
+
+  </div> <!-- Cierre del div contenedor -->
+
+  <div class="alerta-emergente-fondo alerta-cerrar-sesion">
+    <div class="alerta-emergente">
+      <div class="alerta-emergente-icono">
+        <i class="icono power 110"></i>
+      </div>
+      <div class="alerta-emergente-texto">
+        ¿Desea cerrar sesión?
+      </div>
+      <div class="alerta-emergente-botones">
+        <button class="alerta-emergente-boton si">Sí, cerrar</button>
+        <button class="alerta-emergente-boton no" type="button">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="alerta-emergente-fondo alerta-eliminar">
+    <div class="alerta-emergente">
+      <div class="alerta-emergente-icono">
+        <i class="icono trash-2 110"></i>
+      </div>
+      <div class="alerta-emergente-texto">
+        ¿Desea eliminar esta información?
+      </div>
+      <div class="alerta-emergente-botones">
+        <button class="alerta-emergente-boton si">Sí, eliminar</button>
+        <button class="alerta-emergente-boton no" type="button">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="alerta-emergente-fondo alerta-enviar">
+    <div class="alerta-emergente">
+      <div class="alerta-emergente-icono">
+        <i class="icono send 110"></i>
+      </div>
+      <div class="alerta-emergente-texto">
+        ¿Desea enviar esta información?
+      </div>
+      <div class="alerta-emergente-botones">
+        <button class="alerta-emergente-boton si">Sí, enviar</button>
+        <button class="alerta-emergente-boton no" type="button">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="alerta-emergente-fondo alerta-editar">
+    <div class="alerta-emergente">
+      <div class="alerta-emergente-icono">
+        <i class="icono save 110"></i>
+      </div>
+      <div class="alerta-emergente-texto">
+        ¿Desea editar esta información?
+      </div>
+      <div class="alerta-emergente-botones">
+        <button class="alerta-emergente-boton si">Sí, editar</button>
+        <button class="alerta-emergente-boton no" type="button">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+      window.iconBaseUrl = "iconos/data";
+  </script>
+
+  <script src="iconos/visor-iconos.js"></script>
+
+  <!-- DataTables JS y jQuery -->
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <!-- Select 2 -->  
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Seleccionamos todos los formularios por clase
+      const forms = {
+        enviar: document.querySelectorAll(".form-enviar"),
+        editar: document.querySelectorAll(".form-editar"),
+        eliminar: document.querySelectorAll(".form-eliminar"),
+        cerrarSesion: document.querySelectorAll(".form-cerrar-sesion"),
+      };
+
+      // Seleccionamos las alertas
+      const alertas = {
+        enviar: document.querySelector(".alerta-enviar"),
+        editar: document.querySelector(".alerta-editar"),
+        eliminar: document.querySelector(".alerta-eliminar"),
+        cerrarSesion: document.querySelector(".alerta-cerrar-sesion"),
+      };
+
+      let formularioActual = null;
+
+      // Mostrar la alerta correspondiente y guardar el formulario que disparó la acción
+      function mostrarAlerta(tipo, form) {
+        ocultarTodasLasAlertas();
+        if (alertas[tipo]) {
+          alertas[tipo].style.display = "flex";
+          formularioActual = form;
+        }
+      }
+
+      // Ocultar todas las alertas y limpiar formularioActual
+      function ocultarTodasLasAlertas() {
+        Object.values(alertas).forEach(alerta => {
+          if (alerta) alerta.style.display = "none";
+        });
+        formularioActual = null;
+      }
+
+      // Al iniciar, ocultamos todas las alertas
+      ocultarTodasLasAlertas();
+
+      // Agregar listener a cada formulario de cada tipo
+      Object.entries(forms).forEach(([tipo, formList]) => {
+        formList.forEach(form => {
+          form.addEventListener("submit", function (e) {
+            e.preventDefault();
+            mostrarAlerta(tipo, form);
+          });
+        });
+      });
+
+      // Botones "No" para cerrar la alerta
+      document.querySelectorAll(".alerta-emergente-boton.no").forEach(btn => {
+        btn.addEventListener("click", () => {
+          ocultarTodasLasAlertas();
+        });
+      });
+
+      // Botones "Si" para enviar el formulario actual
+      document.querySelectorAll(".alerta-emergente-boton.si").forEach(btn => {
+        btn.addEventListener("click", () => {
+          if (formularioActual) {
+            formularioActual.submit();
+          }
+        });
+      });
+    });
+  </script>
+
+  <script>
+    $(document).ready(function() {
+      const tabla = $('#miTabla').DataTable({
+        language: {
+          search: "Buscar:",
+          lengthMenu: "Mostrar _MENU_ registros por página",
+          zeroRecords: "No se encontraron resultados",
+          info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
+          infoEmpty: "Mostrando 0 a 0 de 0 registros",
+          infoFiltered: "(filtrado de _MAX_ registros en total)",
+          paginate: {
+            first: "Primero",
+            last: "Último",
+            next: "Siguiente",
+            previous: "Anterior"
+          }
+        },
+        lengthMenu: [
+          [15, 50, 100, 200, 400, 1000],
+          ['15', '50', '100', '200', '400', '1000']
+        ],
+        orderCellsTop: true,
+
+        /* 🔹 agregado: evitar scroll horizontal y ajustar ancho */
+        scrollX: false,
+        autoWidth: false,
+        responsive: false,
+
+        initComplete: function () {
+          const api = this.api();
+
+          // Recorremos las columnas
+          api.columns().every(function (colIdx) {
+            const column = this;
+            const select = $('.filtros th').eq(colIdx).find('select');
+
+            if (!select.length) return;
+
+            // Limpiar y agregar el placeholder
+            select.empty().append('<option value="">Filtrar...</option>');
+
+            // Obtener valores únicos y ordenarlos
+            const uniqueValues = new Set();
+            column.data().each(function (d) {
+              if (d) uniqueValues.add(d);
+            });
+
+            Array.from(uniqueValues).sort().forEach(function (val) {
+              select.append($('<option>').val(val).text(val));
+            });
+
+            // Iniciar Select2
+            select.select2({
+              placeholder: "Filtrar...",
+              allowClear: true,
+              width: 'resolve',
+              language: {
+                noResults: function() {
+                  return "No se encontraron resultados";
+                },
+                searching: function() {
+                  return "Buscando...";
+                },
+                inputTooShort: function(args) {
+                  return `Escribí al menos ${args.minimum - args.input.length} carácter(es)`;
+                },
+                errorLoading: function() {
+                  return "No se pudieron cargar los resultados";
+                },
+                loadingMore: function() {
+                  return "Cargando más resultados…";
+                }
+              }
+            });
+
+            // Filtrar al seleccionar
+            select.on('change', function () {
+              const val = $.fn.dataTable.util.escapeRegex($(this).val());
+              column.search(val ? '^' + val + '$' : '', true, false).draw();
+            });
+          });
+        }
+      });
+    });
+  </script>
+
+  <script>
+    document.querySelectorAll('.separador').forEach(el => {
+      const classList = [...el.classList];
+      const heightClass = classList.find(cls => /^\d+$/.test(cls));
+      if (heightClass) {
+        el.style.height = `${heightClass}px`;
+      }
+    });
+  </script>
+
+  <script>
+    // Oculta el spinner cuando todo el contenido haya cargado
+    window.addEventListener("load", function () {
+      const spinner = document.getElementById("spinner-carga");
+      if (spinner) {
+        spinner.style.display = "none";
+      }
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,271 @@
+/* ==========================================
+            FLORA CSS Library
+      Autor: Santiago Elías Formichelli
+    Framework Frontend para proyectos web
+=========================================== */
+
+.boton {
+  display: flex; /* Flexbox en lugar de inline-block */
+  width: fit-content;
+  align-items: center; /* Centrado vertical */
+  justify-content: center; /* Centrado horizontal */
+  background-color: var(--color-primario);
+  color: var(--color-superficie);
+  border: 2px solid transparent;
+  padding: 0.6rem 0.9rem;
+  font-weight: bold;
+  font-size: 1rem;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-block: 1.5rem;
+  overflow: hidden;
+  white-space: normal; /* permite quiebre */
+  word-break: break-word; /* quiebra si hay una palabra larga */
+}
+
+.boton:hover {
+  background-color: var(--color-superficie);
+  color: var(--color-primario);
+  border-color: var(--color-primario);
+}
+
+.boton2 {
+  display: flex; /* Flexbox en lugar de inline-block */
+  width: fit-content;
+  align-items: center; /* Centrado vertical */
+  justify-content: center; /* Centrado horizontal */
+  color: var(--color-primario);
+  background-color: var(--color-superficie);
+  border: 2px solid var(--color-primario);
+  padding: 0.6rem 0.9rem;
+  font-weight: bold;
+  font-size: 1rem;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-block: 1.5rem;
+  overflow: hidden;
+  white-space: normal; /* permite quiebre */
+  word-break: break-word; /* quiebra si hay una palabra larga */
+}
+
+.boton2:hover {
+  color: var(--color-superficie);
+  background-color: var(--color-primario);
+  border-color: var(--color-primario);
+}
+
+a.boton:hover {
+  text-decoration: none;
+}
+
+.boton svg {
+  margin-right: 0.3rem;
+}
+
+a.boton2:hover {
+  text-decoration: none;
+}
+
+.boton2 svg {
+  margin-right: 0.3rem;
+}
+
+.formulario-base {
+  max-width: 800px;
+  width: 100%;
+  box-sizing: border-box;
+  display: block;
+  margin-top: 2rem;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 2rem; /* esto sí o sí debería aplicarse */
+  background-color: var(--color-superficie);
+  padding: 2rem;
+  border-radius: 1rem;  
+  outline: none;
+  border: 2px solid var(--color-extra);
+}
+
+.form-grupo {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: var(--color-secundario); /* Texto del label */
+}
+
+.form-input,
+.form-textarea, 
+.form-select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid transparent;
+  background-color: var(--color-fondo);
+  color: var(--color-extra);
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  appearance: auto;
+}
+
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+  outline: none;
+  border-color: var(--color-extra);
+  box-shadow: 0 0 5px var(--color-extra);
+}
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px var(--color-superficie) inset !important;
+  -webkit-text-fill-color: var(--color-extra) !important;
+  caret-color: var(--color-extra) !important;
+  transition: background-color 5000s ease-in-out !important;
+}
+
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px var(--color-superficie) inset !important;
+  -webkit-text-fill-color: var(--color-extra) !important;
+}
+
+.link-drive {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px; /* espacio entre icono y texto */
+  font-size: 20px;
+  margin-block: 1.1rem;
+  margin-inline: 1rem;
+  margin-block: 0.8rem;
+  padding: 15px 20px;
+  border-radius: 10px;
+  border: 1px solid var(--color-contraste);
+}
+
+.link-drive:hover {
+  background-color: color-mix(in srgb, var(--color-primario) 10%, transparent);
+  color: var(--color-secundario);
+  text-decoration: none;
+}
+
+a:hover, a:focus {
+  text-decoration: underline;
+}
+
+.transparente {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important; /* Por si tiene sombra también */
+}
+
+.migas-de-pan {
+  display: flex;
+  align-items: center;      /* centra verticalmente */
+  justify-content: center;  /* centra horizontalmente */
+  gap: 0;
+  width: 100vw;
+  max-width: 100%;
+  margin: 0;
+  margin-block: 1.3rem;
+  box-sizing: border-box;
+}
+
+.migas-de-pan a {
+  text-decoration: none;
+}  
+
+/* Estilo base de cada miga */
+.miga {
+  padding: 10px 20px;
+  border: none;
+  color: white;
+  font-weight: 400;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: var(--color-contraste);
+  transition: background-color 0.3s;
+  padding-inline: 1rem;
+  padding-block: 0.3rem;
+  border: 2px solid var(--color-secundario);
+}
+
+.miga .icono {
+  margin-left: 0;
+  margin-right: 0.2rem; /* espacio entre icono y texto */
+  margin-top: -0.3rem;
+  vertical-align: middle; /* centra verticalmente con el texto */
+}
+
+/* Miga de comienzo */
+.miga.comienzo {
+  padding-left: 1.25rem;
+  border-radius: 20px 0 0 20px;
+  background-color: var(--color-terciario);
+}
+
+/* Migas intermedias */
+.miga.intermedia {
+  border-radius: 0;
+  border-left: none;
+}
+
+/* Miga final (actual) */
+.miga.final {
+  padding-left: 0.8rem;
+  padding-right: 1.25rem;
+  border-radius: 0 20px 20px 0;
+  background-color: var(--color-secundario); /* más iluminada */
+  color: var(--color-fondo);
+  cursor: default;
+}
+
+/* Hover solo para las clicables */
+.miga.comienzo:hover,
+.miga.intermedia:hover {
+  background-color: var(--color-secundario);
+  color: var(--color-fondo);
+}
+
+/* ===== Checkbox y Radio visibles ===== */
+.checkbox-estilo,
+.radio-estilo {
+    width: 20px;          /* tamaño del checkbox/radio */
+    height: 20px;
+    cursor: pointer;
+    accent-color: #4CAF50; /* color del check */
+    appearance: auto !important;       /* fuerza que use estilo nativo */
+    -webkit-appearance: auto !important;
+    -moz-appearance: auto !important;
+    border: 1px solid #ccc;           /* borde visible */
+    background-color: #fff;           /* fondo blanco */
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* Opcional: efecto al pasar el mouse */
+.checkbox-estilo:hover,
+.radio-estilo:hover {
+    border-color: #4CAF50;
+}
+
+label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.video-container {
+  margin-top: 3.5rem;
+  margin-bottom: 2.5rem;
+}

@@ -1,0 +1,207 @@
+/* ==========================================
+            FLORA CSS Library
+      Autor: Santiago Elías Formichelli
+    Framework Frontend para proyectos web
+=========================================== */
+
+/* [RESPONSIVE FIXES PARA DATATABLE + SELECT2] */
+
+/* 🔄 Tabla responsive con scroll horizontal */
+.tabla-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 1rem;
+  padding-right: 1rem; /* agrega padding derecho para evitar que el contenido quede pegado */
+  box-sizing: content-box; /* importante para que el padding no afecte el width y se vea el scroll */
+}
+
+/* 🧩 DataTable: que no colapsen las celdas */
+table.dataTable th,
+table.dataTable td {
+  min-width: 120px;
+  white-space: nowrap;
+}
+
+table.dataTable::after {
+  content: "";
+  display: block;
+  width: 1.5rem; /* espacio extra para scroll */
+}
+
+/* 🎯 Select2 dentro de la tabla */
+thead .filtros {
+  min-width: 100%;
+  white-space: nowrap;
+}
+
+/* 📱 Select2 no se rompa en móvil */
+.filtros {
+  max-width: 100% !important;
+}
+
+
+/* ==== Responsive ==== */
+@media (max-width: 1500px) {
+  .button-grid {
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  }
+}
+
+/* ==== Responsive ==== */
+@media (max-width: 1300px) {
+  .button-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+}
+
+@media (max-width: 1100px) {
+  .button-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
+  .migas-de-pan {
+    flex-wrap: wrap;          /* permite que las migas pasen a la siguiente línea */
+    padding: 0.8rem 1rem;     /* reduce padding del contenedor */
+  }
+
+  .miga {
+    font-size: 15px;          /* texto un poco más pequeño */
+    padding-inline: 0.8rem;   /* reduce padding horizontal */
+    padding-block: 0.5rem;    /* reduce padding vertical */
+    min-width: 70px;          /* evita que se encoja demasiado */
+    margin-bottom: 2px;       /* separación vertical cuando hagan wrap */
+  }
+
+  .miga .icono {
+    font-size: 20px;          /* iconos un poco más pequeños */
+    margin-right: 0.15rem;    /* ajusta separación con el texto */
+  }
+}
+
+/* ==== Responsive ==== */
+@media (max-width: 900px) {
+  .system-info {
+    grid-template-columns: repeat(12, 1fr);
+  }
+  .system-info .logo,
+  .system-info .system-name,
+  .system-info .system-version,
+  .system-info .menu-usuario {
+    grid-column: span 12;
+    margin-block: 0.2rem;
+  }
+
+  .system-info .menu-usuario {
+    border-top: 2px solid var(--color-primario);
+    padding-top: 1rem;
+    padding-bottom: 0.7rem;
+  }
+
+  .button-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
+
+  /* Estilo para el select en mobile */
+  /* contenedor principal */
+  .selector-paletas {
+    width: 100%;
+    max-width: 300px;
+    position: relative;
+  }
+
+  /* caja que simula el select */
+  .selector-paletas .select-box {
+    background: var(--color-primario);
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  /* lista desplegable */
+  .selector-paletas .options {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    color: #000;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    z-index: 100;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* opción individual */
+  .selector-paletas .option {
+    padding: 0.5rem;
+    display: flex;
+    gap: 4px;
+    cursor: pointer;
+    align-items: center;
+  }
+
+  .selector-paletas .option:hover {
+    background: #f0f0f0;
+  }
+
+  /* cada cuadradito de color */
+  .selector-paletas .option .muestra-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+  }
+
+}
+
+@media (max-width: 768px) {
+  .dataTables_wrapper .dataTables_length,
+  .dataTables_wrapper .dataTables_filter,
+  .dataTables_wrapper .dataTables_info,
+  .dataTables_wrapper .dataTables_paginate {
+    text-align: center;
+    float: none;
+    width: 100%;
+    margin: 8px 0;
+  }
+
+  table.dataTable {
+    font-size: 0.9rem;
+  }
+
+  .tabla-responsive {
+    margin-bottom: 1rem;
+    padding-inline: 0rem!important; /* mantiene padding en móvil */
+  }
+
+  .columnas > div {
+    min-width: 300px;
+  }  
+
+  .col1, .col2, .col3, .col4, .col5, .col6 {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+
+  .selector-paletas {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .opcion-paleta {
+    width: 100%;
+    max-width: 132px;
+  }
+}
+
+@media (max-width: 400px) {
+  .migas-de-pan {
+    justify-content: center;   /* centra las migas si hacen wrap */
+  }
+}
