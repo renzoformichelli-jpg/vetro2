@@ -1,68 +1,61 @@
+@include('includes.header')
 
-<form class="formulario-base" method="READ" action="{{ route('compras.show', $compra->id) }}">
+<div style="max-width: 900px; margin: auto; padding: 20px; border: 1px solid #ccc; background: #fff;">
+    
+    <h1 style="text-align:center;">Factura de Compra #{{ $compra->compra_id }}</h1>
+    <hr>
 
-    @method('PUT')
-
-```
-<!-- Proveedor -->
-<div class="form-grupo">
-    <label for="id_proveedor" class="form-label">Proveedor</label>
-    <select id="id_proveedor" name="id_proveedor" class="form-input">
-        <?php foreach($proveedores as $prov): ?>
-            <option value="<?= $prov->id ?>" <?= $compra->id_proveedor == $prov->id ? 'selected' : '' ?>>
-                <?= $prov->nombre ?>
-            </option>
-        <?php endforeach; ?>
-    </select>
-</div>
-
-<!-- Fecha -->
-<div class="form-grupo">
-    <label for="fecha" class="form-label">Fecha</label>
-    <input type="date" id="fecha" name="fecha" class="form-input"
-           value="<?= $compra->fecha ?>">
-</div>
-
-<!-- Productos -->
-<div class="form-grupo">
-    <label class="form-label">Productos</label>
-    <?php foreach($detalles as $index => $det): ?>
-        <div class="detalle-producto" style="margin-bottom:10px; border:1px solid #ccc; padding:5px;">
-            <select name="productos[<?= $index ?>][id]" class="form-input">
-                <?php foreach($productosTabla as $prod): ?>
-                    <option value="<?= $prod->id ?>" <?= $det->id_producto == $prod->id ? 'selected' : '' ?>>
-                        <?= $prod->nombre ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
-
-            <input type="number" name="productos[<?= $index ?>][cantidad]" class="form-input"
-                   value="<?= $det->cantidad ?>" min="1" step="1" placeholder="Cantidad">
-
-            <input type="number" name="productos[<?= $index ?>][precio]" class="form-input"
-                   value="<?= $det->precio_unitario ?>" min="0" step="0.01" placeholder="Precio Unitario">
-
-            <input type="datetime-local" name="productos[<?= $index ?>][timestamp]" class="form-input"
-                   value="<?= date('Y-m-d\TH:i', strtotime($det->timestamp)) ?>">
+    <!-- Datos del proveedor y compra -->
+    <div style="display:flex; justify-content:space-between; margin-bottom: 20px;">
+        <div>
+            <strong>Proveedor:</strong> {{ $compra->proveedor }}<br>
+            <strong>Fecha:</strong> {{ \Carbon\Carbon::parse($compra->fecha)->format('d/m/Y') }}<br>
+            <strong>Observaciones:</strong> {{ $compra->observaciones ?? '-' }}
         </div>
-    <?php endforeach; ?>
+        <div>
+            <strong>ID Compra:</strong> {{ $compra->compra_id }}<br>
+        </div>
+    </div>
+
+    <!-- Productos -->
+    <table style="width:100%; border-collapse: collapse; margin-bottom: 20px;">
+        <thead style="background:#f2f2f2;">
+            <tr>
+                <th style="border:1px solid #ccc; padding:8px;">Producto</th>
+                <th style="border:1px solid #ccc; padding:8px;">Cantidad</th>
+                <th style="border:1px solid #ccc; padding:8px;">Precio Unitario</th>
+                <th style="border:1px solid #ccc; padding:8px;">Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            @php
+                $total = 0;
+            @endphp
+
+            @foreach($detalles as $det)
+                @php
+                    $subtotal = $det->precio_unitario * $det->cantidad;
+                    $total += $subtotal;
+                @endphp
+                <tr>
+                    <td style="border:1px solid #ccc; padding:8px;">{{ $det->producto }}</td>
+                    <td style="border:1px solid #ccc; padding:8px; text-align:center;">{{ $det->cantidad }}</td>
+                    <td style="border:1px solid #ccc; padding:8px; text-align:right;">${{ number_format($det->precio_unitario, 2) }}</td>
+                    <td style="border:1px solid #ccc; padding:8px; text-align:right;">${{ number_format($subtotal, 2) }}</td>
+                </tr>
+            @endforeach
+        </tbody>
+        <tfoot>
+            <tr style="font-weight:bold;">
+                <td colspan="3" style="border:1px solid #ccc; padding:8px; text-align:right;">Total</td>
+                <td style="border:1px solid #ccc; padding:8px; text-align:right;">${{ number_format($total, 2) }}</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <div style="text-align:center; margin-top: 20px;">
+        <a href="{{ route('compras.index') }}" class="boton">Volver</a>
+    </div>
 </div>
 
-<!-- Observaciones -->
-<div class="form-grupo">
-    <label for="observaciones" class="form-label">Observaciones</label>
-    <textarea id="observaciones" name="observaciones" class="form-input"><?= $compra->observaciones ?></textarea>
-</div>
-
-<!-- Botón Guardar -->
-<div class="centrar-div">
-    <button type="submit" class="boton centrar-elemento">
-        <span class="icono send"></span> Guardar cambios
-    </button>
-</div>
-```
-
-</form>
-
-
-</form>
+@include('includes.footer')

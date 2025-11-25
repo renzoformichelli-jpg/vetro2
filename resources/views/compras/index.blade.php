@@ -1,6 +1,9 @@
 @include('includes.header')
 
 <div>
+    <div class="centrar-div"><span class="icono shopping-cart 120"></span>
+    </div>
+    <div class="separador 10"></div>
     <h1 class="centrar-div">Compras</h1>
 </div>
 
@@ -9,7 +12,7 @@
 <div class="transparente">
   <div class="centrar-div">
     <a href="{{ route('compras.create') }}" class="boton centrar-elemento">
-      Agregar compra
+      <span class="icono circle-plus 24"></span> Agregar compra
     </a>
   </div>
 </div>
@@ -19,21 +22,34 @@
     <table id="miTabla" class="display dataTable">
       <thead>
         <tr>
-          <th style="display:none;">ID</th>
+          <th>ID</th>
           <th>Proveedor</th>
-          <th>Fecha</th>
+          <th>Productos</th>
           <th>Observaciones</th>
+          <th>Costo</th>
+          <th>Fecha</th>
           <th>Acciones</th>
+        </tr>
+        <tr class="filtros">
+          <th><select class="filtro-columna"></select></th>
+          <th><select class="filtro-columna"></select></th>
+          <th><select class="filtro-columna"></select></th>
+          <th><select class="filtro-columna"></select></th>
+          <th><select class="filtro-columna"></select></th>
+          <th><select class="filtro-columna"></select></th>
+          <th></th>
         </tr>
       </thead>
 
       <tbody>
         @foreach($compras as $compra)
         <tr>
-          <td style="display:none;">{{ $compra->id }}</td>
+          <td>{{ $compra->id }}</td>
           <td>{{ $compra->proveedor }}</td>
-          <td>{{ $compra->fecha }}</td>
+          <td>{{ $compra->productos }}</td>
           <td>{{ $compra->observaciones }}</td>
+          <td>${{ $compra->total_precios }}</td>
+          <td>{{ \Carbon\Carbon::parse($compra->fecha)->format('d/m/Y') }}</td>
 
           <td>
             <div class="acciones-inline">
@@ -74,21 +90,3 @@
 </div>
 
 @include('includes.footer')
-
-@push('scripts')
-<script>
-$(document).ready(function() {
-    $('#miTabla').DataTable({
-        "pageLength": 10,
-        "lengthMenu": [10, 20],
-        "columnDefs": [
-            { "targets": 0, "visible": false }
-        ]
-    });
-});
-
-function confirmarEliminacion() {
-    return confirm("¿Estás seguro de eliminar esta compra?");
-}
-</script>
-@endpush

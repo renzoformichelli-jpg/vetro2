@@ -3,7 +3,7 @@
 <div class="centrar-div"><h2>Editar Producto</h2></div>
 
 <div>
-    <form class="formulario-base" method="POST" action="{{ route('productos.update', $producto->id) }}">
+    <form class="formulario-base form-editar" method="POST" action="{{ route('productos.update', $producto->id) }}">
         @csrf
         @method('PUT')
 
@@ -43,3 +43,4 @@
 </div>
 
 @include('includes.footer')
+

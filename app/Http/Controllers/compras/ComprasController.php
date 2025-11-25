@@ -11,18 +11,32 @@ class ComprasController extends Controller
     // -----------------------------------------
     // INDEX
     // -----------------------------------------
-    public function index()
-    {
-        $compras = DB::select("
-            SELECT c.id, c.fecha, c.observaciones,
-                   p.nombre AS proveedor
-            FROM compras c
-            LEFT JOIN proveedores p ON p.id = c.id_proveedor
-            ORDER BY c.id DESC
-        ");
+public function index()
+{
+    $compras = DB::table('compras')
+        ->select(
+            'compras.id',
+            'compras.fecha',
+            'compras.observaciones',
+            'proveedores.nombre as proveedor',
+            DB::raw('GROUP_CONCAT(productos.nombre ORDER BY productos.nombre SEPARATOR ", ") as productos'),
+            DB::raw('SUM(compras_detalle.precio_unitario) as total_precios')
+        )
+        ->leftJoin('proveedores', 'proveedores.id', '=', 'compras.id_proveedor')
+        ->leftJoin('compras_detalle', 'compras_detalle.id_compra', '=', 'compras.id')
+        ->leftJoin('productos', 'productos.id', '=', 'compras_detalle.id_producto')
+        ->groupBy(
+            'compras.id',
+            'compras.fecha',
+            'compras.observaciones',
+            'proveedores.nombre'
+        )
+        ->orderByDesc('compras.id')
+        ->get();
 
-        return view('compras.index', compact('compras'));
-    }
+    return view('compras.index', compact('compras'));
+}
+
 
     // -----------------------------------------
     // CREATE
@@ -45,91 +59,138 @@ class ComprasController extends Controller
     // STORE
     // -----------------------------------------
     public function store(Request $request)
-    {
-        // Insertar CABECERA
-        $id_compra = DB::table('compras')->insertGetId([
-            'id_proveedor'  => $request->id_proveedor,
-            'fecha'         => $request->fecha,
-            'observaciones' => $request->observaciones,
-            'created_at'    => now(),
-            'updated_at'    => now()
-        ]);
+{
+    // 1. Validación
+    $request->validate([
+        'id_proveedor' => 'required|integer',
+        'fecha' => 'required|date',
+        'observaciones' => 'nullable|string',
 
-        // Productos puede venir null → se controla
-        $productos = $request->productos ?? [];
+        'id_producto' => 'required|array',
+        'id_producto.*' => 'required|integer',
 
-        if (!empty($productos)) {
-            foreach ($productos as $p) {
+        'cantidad' => 'required|array',
+        'cantidad.*' => 'required|integer|min:1',
 
-                // Validación interna por seguridad
-                if (!isset($p['id']) || !isset($p['cantidad']) || !isset($p['precio'])) {
-                    continue;
-                }
+        'costo' => 'required|array',
+        'costo.*' => 'required|numeric|min:0',
+    ]);
 
-                DB::table('compras_detalle')->insert([
-                    'id_compra'       => $id_compra,
-                    'id_producto'     => $p['id'],
-                    'cantidad'        => $p['cantidad'],
-                    'precio_unitario' => $p['precio'],
-                    'created_at'      => now(),
-                    'updated_at'      => now()
-                ]);
-            }
-        }
+    // 2. Guardar la compra (tabla compras)
+    $compraId = DB::table('compras')->insertGetId([
+        'id_proveedor' => $request->id_proveedor,
+        'fecha' => $request->fecha,
+        'observaciones' => $request->observaciones,
+        'created_at' => now(),
+        'updated_at' => now(),
+    ]);
 
-        return redirect()->route('compras.index');
+    // 3. Guardar los detalles
+    $productos = $request->id_producto;
+    $cantidades = $request->cantidad;
+    $costos = $request->costo;
+
+    $detalles = [];
+
+    foreach ($productos as $i => $prodId) {
+
+        // Saltear productos vacíos (por si el usuario deja uno en blanco)
+        if (!$prodId) continue;
+
+        $detalles[] = [
+            'id_compra' => $compraId,
+            'id_producto' => $prodId,
+            'cantidad' => $cantidades[$i],
+            'precio_unitario' => $costos[$i],
+            'created_at' => now(),
+            'updated_at' => now(),
+        ];
     }
+
+    // Insert masivo
+    DB::table('compras_detalle')->insert($detalles);
+
+    return redirect()
+        ->route('compras.index')
+        ->with('success', 'Compra registrada correctamente.');
+}
+
 
     // -----------------------------------------
     // SHOW
     // -----------------------------------------
-    public function show($id)
+        public function show($id)
 {
-    // Datos de la compra
-    $compra = DB::selectOne("
-        SELECT c.*, p.nombre AS proveedor
-        FROM compras c
-        LEFT JOIN proveedores p ON p.id = c.id_proveedor
-        WHERE c.id = ?
-    ", [$id]);
+    $compra = DB::table('compras')
+        ->leftJoin('proveedores', 'proveedores.id', '=', 'compras.id_proveedor')
+        ->where('compras.id', $id)
+        ->select(
+            'compras.id as compra_id',
+            'compras.id_proveedor',
+            'compras.observaciones',
+            'compras.fecha',
+            'proveedores.nombre as proveedor'
+        )
+        ->first();
 
-    // Detalles de la compra
-    $detalles = DB::select("
-        SELECT d.*, pr.nombre AS producto, pr.valor_venta
-        FROM compras_detalle d
-        LEFT JOIN productos pr ON pr.id = d.id_producto
-        WHERE d.id_compra = ?
-    ", [$id]);
+    $detalles = DB::table('compras_detalle')
+        ->leftJoin('productos', 'productos.id', '=', 'compras_detalle.id_producto')
+        ->where('compras_detalle.id_compra', $id)
+        ->select(
+            'compras_detalle.id as detalle_id',
+            'compras_detalle.id_compra',
+            'compras_detalle.id_producto',
+            'compras_detalle.cantidad',
+            'compras_detalle.precio_unitario',
+            'productos.nombre as producto',
+            'productos.valor_venta'
+        )
+        ->get();
 
-    // NECESARIO PARA EL SELECT DEL SHOW
     $proveedores = DB::table('proveedores')->get();
+    $productos = DB::table('productos')->get();
 
-    return view('compras.show', compact('compra', 'detalles', 'proveedores'));
+    return view('compras.show', compact(
+        'compra',
+        'detalles',
+        'proveedores',
+        'productos'
+    ));
 }
+
+
 
 
     // -----------------------------------------
     // EDIT
     // -----------------------------------------
     public function edit($id)
-    {
-        $compra = DB::selectOne("
-            SELECT c.*, p.nombre AS proveedor
-            FROM compras c
-            LEFT JOIN proveedores p ON p.id = c.id_proveedor
-            WHERE c.id = ?
-        ", [$id]);
+{
+    // Datos de la compra
+    $compra = DB::table('compras')
+        ->leftJoin('proveedores', 'proveedores.id', '=', 'compras.id_proveedor')
+        ->select('compras.*', 'proveedores.nombre AS proveedor')
+        ->where('compras.id', $id)
+        ->first();
 
-        $proveedores = DB::table('proveedores')->get();
+    // Detalles de la compra
+    $detalles = DB::table('compras_detalle')
+        ->leftJoin('productos', 'productos.id', '=', 'compras_detalle.id_producto')
+        ->select(
+            'compras_detalle.*',
+            'productos.nombre AS producto',
+            'productos.valor_venta'
+        )
+        ->where('compras_detalle.id_compra', $id)
+        ->get();
 
-        $productos = DB::select("
-            SELECT id, nombre, valor_venta AS precio
-            FROM productos
-            ORDER BY nombre
-        ");
+    // Para los selects del formulario
+    $proveedores = DB::table('proveedores')->get();
+    $productos   = DB::table('productos')->get();
 
-        return view('compras.edit', compact('compra', 'proveedores', 'productos'));
-    }
+    return view('compras.edit', compact('compra', 'detalles', 'productos', 'proveedores'));
+}
+
 
     // -----------------------------------------
     // UPDATE
