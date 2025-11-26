@@ -110,22 +110,22 @@ public function index()
     // Insert masivo
     DB::table('compras_detalle')->insert($detalles);
 
-    return redirect()
-        ->route('compras.index')
-        ->with('success', 'Compra registrada correctamente.');
+    return redirect()->route('compras.index')->with('success', 'Compra agregada correctamente');
 }
 
 
     // -----------------------------------------
     // SHOW
     // -----------------------------------------
-        public function show($id)
+      public function show($id)
 {
+    // Datos de la compra
     $compra = DB::table('compras')
         ->leftJoin('proveedores', 'proveedores.id', '=', 'compras.id_proveedor')
         ->where('compras.id', $id)
         ->select(
-            'compras.id as compra_id',
+            'compras.id', // Para que las rutas y botones funcionen
+            'compras.id as compra_id', // Para mostrar en la factura
             'compras.id_proveedor',
             'compras.observaciones',
             'compras.fecha',
@@ -133,6 +133,7 @@ public function index()
         )
         ->first();
 
+    // Detalles de la compra
     $detalles = DB::table('compras_detalle')
         ->leftJoin('productos', 'productos.id', '=', 'compras_detalle.id_producto')
         ->where('compras_detalle.id_compra', $id)
@@ -147,6 +148,7 @@ public function index()
         )
         ->get();
 
+    // Para los selects (si los necesitaras en la vista)
     $proveedores = DB::table('proveedores')->get();
     $productos = DB::table('productos')->get();
 
@@ -161,6 +163,7 @@ public function index()
 
 
 
+
     // -----------------------------------------
     // EDIT
     // -----------------------------------------
@@ -168,10 +171,11 @@ public function index()
 {
     // Datos de la compra
     $compra = DB::table('compras')
-        ->leftJoin('proveedores', 'proveedores.id', '=', 'compras.id_proveedor')
-        ->select('compras.*', 'proveedores.nombre AS proveedor')
-        ->where('compras.id', $id)
-        ->first();
+    ->leftJoin('proveedores', 'proveedores.id', '=', 'compras.id_proveedor')
+    ->select('compras.*', 'compras.id as compra_id', 'proveedores.nombre AS proveedor')
+    ->where('compras.id', $id)
+    ->first();
+
 
     // Detalles de la compra
     $detalles = DB::table('compras_detalle')
@@ -229,7 +233,7 @@ public function index()
             }
         }
 
-        return redirect()->route('compras.index');
+        return redirect()->route('compras.index')->with('success', 'Compra editada correctamente');
     }
 
     // -----------------------------------------
@@ -240,6 +244,6 @@ public function index()
         DB::table('compras_detalle')->where('id_compra', $id)->delete();
         DB::table('compras')->where('id', $id)->delete();
 
-        return redirect()->route('compras.index');
+        return redirect()->route('compras.index')->with('success', 'Compra eliminada correctamente');
     }
 }

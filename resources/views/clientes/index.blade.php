@@ -1,18 +1,23 @@
 @include('includes.header')
 
-<div>
-    <h1 class="centrar-div">Clientes</h1>
-</div>
+<div class="centrar-div">
+    <div class="centrar-div"><span class="icono users 120"></span></div>
 
-<div class="separador 10"></div>
+    <div class="separador 10"></div>
 
-<div class="transparente">
-  <div class="centrar-div">
-    <a href="{{ route('clientes.create') }}" class="boton centrar-elemento">
-      Agregar cliente
+    <h1>Clientes</h1>
+    <div class="centrar-div transparente">
+    <a href="{{ route('clientes.create') }}" class="boton">
+      <span class="icono circle-plus 24"></span> Agregar cliente
     </a>
-  </div>
+    </div>
 </div>
+
+@if(session('success'))
+  <div class="alerta exito">
+    <span class="alerta-texto">{{ session('success') }}</span>
+  </div>
+@endif
 
 <div class="columnas">
   <div class="tabla-responsive padding">
@@ -43,18 +48,22 @@
 
           <td>
             <div class="acciones-inline">
-              <a href="{{ route('clientes.edit', $cliente->id) }}" class="icono-editar" title="Editar">
-                  <span class="icono pencil"></span>
-              </a>
+              <form action="{{ route('clientes.edit', $cliente->id) }}" method="GET" style="display:inline;">
+                  <button type="submit" class="icono-editar" title="Editar">
+                      <span class="icono square-pen 24 icono-editar"></span>
+                  </button>
+              </form>
+
+              &nbsp;
 
               <form class="form-eliminar" action="{{ route('clientes.destroy', $cliente->id) }}" method="POST" style="display:inline;" onsubmit="return confirmarEliminacion(this)">
                   @csrf
                   @method('DELETE')
-                  <button type="submit" class="icono-eliminar" title="Eliminar" style="border:none;background:none;cursor:pointer;">
-                      <span class="icono trash"></span>
+                  <button type="submit" class="icono-eliminar" title="Eliminar">
+                      <span class="icono trash 24"></span>
                   </button>
               </form>
-            </div>
+            </div>  
           </td>
         </tr>
         @endforeach

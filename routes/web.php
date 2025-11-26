@@ -43,9 +43,8 @@ Route::put('/clientes/{id}', [ClientesController::class, 'update'])->name('clien
 Route::delete('/clientes/{id}', [ClientesController::class, 'destroy'])->name('clientes.destroy');
 
 
-// ---------------------------
-// VENTAS (incluye show)
-// ---------------------------
+
+
 Route::get('/ventas', [VentasController::class, 'index'])->name('ventas.index');
 Route::get('/ventas/create', [VentasController::class, 'create'])->name('ventas.create');
 Route::post('/ventas', [VentasController::class, 'store'])->name('ventas.store');
@@ -53,6 +52,7 @@ Route::get('/ventas/{id}', [VentasController::class, 'show'])->name('ventas.show
 Route::get('/ventas/{id}/edit', [VentasController::class, 'edit'])->name('ventas.edit');
 Route::put('/ventas/{id}', [VentasController::class, 'update'])->name('ventas.update');
 Route::delete('/ventas/{id}', [VentasController::class, 'destroy'])->name('ventas.destroy');
+
 
 // ---------------------------
 // COMPRAS (incluye show)

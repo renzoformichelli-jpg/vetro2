@@ -1,19 +1,23 @@
 @include('includes.header')
 
-        <div>
-            <h1 class="centrar-div">Proveedores</h1>
-        </div>
+<div class="centrar-div">
+    <div class="centrar-div"><span class="icono truck 120"></span></div>
 
-        <div class="separador 10"></div>
+    <div class="separador 10"></div>
 
-        <div class="transparente">
-          <div class="centrar-div">
-            <a href="{{ route('proveedores.create') }}" class="boton centrar-elemento">
-              Agregar proveedor
-            </a>
-          </div>
-        </div>
+    <h1>Proveedores</h1>
+    <div class="centrar-div transparente">
+    <a href="{{ route('proveedores.create') }}" class="boton">
+      <span class="icono circle-plus 24"></span> Agregar producto
+    </a>
+    </div>
+</div>
 
+@if(session('success'))
+  <div class="alerta exito">
+    <span class="alerta-texto">{{ session('success') }}</span>
+  </div>
+@endif
 
 <div class="columnas">
   <div class="tabla-responsive padding">
@@ -40,20 +44,22 @@
           <td>{{ $proveedor->email }}</td>
           <td>
             <div class="acciones-inline">
-              <!-- Editar -->
-              <a href="{{ route('proveedores.edit', $proveedor->id) }}" class="icono-editar" title="Editar">
-                  <span class="icono pencil"></span>
-              </a>
+              <form action="{{ route('proveedores.edit', $proveedor->id) }}" method="GET" style="display:inline;">
+                  <button type="submit" class="icono-editar" title="Editar">
+                      <span class="icono square-pen 24 icono-editar"></span>
+                  </button>
+              </form>
 
-              <!-- Eliminar -->
+              &nbsp;
+
               <form class="form-eliminar" action="{{ route('proveedores.destroy', $proveedor->id) }}" method="POST" style="display:inline;" onsubmit="return confirmarEliminacion(this)">
                   @csrf
                   @method('DELETE')
-                  <button type="submit" class="icono-eliminar" title="Eliminar" style="border:none;background:none;cursor:pointer;">
-                      <span class="icono trash"></span>
+                  <button type="submit" class="icono-eliminar" title="Eliminar">
+                      <span class="icono trash 24"></span>
                   </button>
               </form>
-            </div>            
+            </div>          
 
           </td>
         </tr>

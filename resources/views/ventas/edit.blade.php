@@ -1,20 +1,25 @@
 @include('includes.header')
 
+<div class="separador 25"></div>
 
+<div class="centrar-div"><h2>Editar Venta #{{ $venta->id }}</h2></div>
 
-    <h1 style="text-align:center;">Editar Compra #{{ $compra->compra_id }}</h1>
-
-    <form class="formulario-base" method="POST" action="{{ route('compras.update', $compra->id) }}">
+<div>
+    <form class="formulario-base" method="POST" action="{{ route('ventas.update', $venta->id) }}">
         @csrf
         @method('PUT')
 
-        <!-- Proveedor -->
+        <h3 class="centrar-texto">Datos generales</h3>
+        <div class="separador 25"></div>
+
+        <!-- Cliente -->
         <div class="form-grupo">
-            <label for="id_proveedor" class="form-label">Proveedor</label>
-            <select id="id_proveedor" name="id_proveedor" class="form-input">
-                @foreach ($proveedores as $prov)
-                    <option value="{{ $prov->id }}" {{ $compra->id_proveedor == $prov->id ? 'selected' : '' }}>
-                        {{ $prov->nombre }}
+            <label for="id_cliente" class="form-label">Cliente</label>
+            <select id="id_cliente" name="id_cliente" class="form-input" required>
+                <option value="">Seleccione</option>
+                @foreach($clientes as $cli)
+                    <option value="{{ $cli->id }}" {{ $venta->id_cliente == $cli->id ? 'selected' : '' }}>
+                        {{ $cli->nombre }} {{ $cli->apellido ?? '' }}
                     </option>
                 @endforeach
             </select>
@@ -23,25 +28,26 @@
         <!-- Fecha -->
         <div class="form-grupo">
             <label for="fecha" class="form-label">Fecha</label>
-            <input type="date" id="fecha" name="fecha" class="form-input" value="{{ $compra->fecha }}">
+            <input type="date" id="fecha" name="fecha" class="form-input" value="{{ $venta->fecha }}" required>
         </div>
 
         <!-- Observaciones -->
         <div class="form-grupo">
             <label for="observaciones" class="form-label">Observaciones</label>
-            <textarea id="observaciones" name="observaciones" class="form-input">{{ $compra->observaciones }}</textarea>
+            <textarea id="observaciones" name="observaciones" class="form-input">{{ $venta->observaciones }}</textarea>
         </div>
 
         <hr>
 
-        <!-- Contenedor de productos -->
+        <!-- Productos -->
         <div id="productos-container">
-            @foreach ($detalles as $index => $det)
+            @foreach($detalles as $index => $det)
                 <div class="producto-item">
                     <div class="form-grupo">
                         <label class="form-label">Producto {{ $index + 1 }}</label>
                         <select name="productos[{{ $index }}][id]" class="form-input" required>
-                            @foreach ($productos as $prod)
+                            <option value="">Seleccione</option>
+                            @foreach($productos as $prod)
                                 <option value="{{ $prod->id }}" {{ $det->id_producto == $prod->id ? 'selected' : '' }}>
                                     {{ $prod->nombre }}
                                 </option>
@@ -55,16 +61,16 @@
                     </div>
 
                     <div class="form-grupo">
-                        <label class="form-label">Precio Unitario {{ $index + 1 }}</label>
+                        <label class="form-label">Precio unitario {{ $index + 1 }}</label>
                         <input type="number" step="0.01" name="productos[{{ $index }}][precio]" class="form-input" value="{{ $det->precio_unitario }}" min="0" required>
                     </div>
 
-                    <div style="height:40px;"></div>
+                    <div class="separador 60"></div>
                 </div>
             @endforeach
         </div>
 
-        <!-- Botones agregar/eliminar productos -->
+        <!-- Botones para agregar/eliminar productos -->
         <div class="centrar-div" style="margin-top: 20px; display:flex; gap:10px; justify-content:center;">
             <button type="button" id="agregarProducto" class="boton" style="background: #005E00">
                 <span class="icono circle-plus 20"></span> Agregar producto
@@ -75,23 +81,16 @@
             </button>
         </div>
 
-        <!-- Botones de acción -->
-        <div class="centrar-div" style="display:flex; gap:10px; flex-wrap: wrap; justify-content:center; margin-top:20px;">
+        <hr>
 
-            <div class="centrar-div">
-                <button type="submit" class="boton centrar-elemento">
-                    <span class="icono send 24"></span> Guardar cambios
-                </button>
-            </div>
-
-            <!-- Volver al índice -->
-            <a href="{{ route('compras.index') }}" class="boton centrar-elemento">
-                <span class="icono back 24"></span> Volver al inicio
-            </a>
+        <!-- Guardar -->
+        <div class="centrar-div">
+            <button type="submit" class="boton centrar-elemento">
+                <span class="icono send 24"></span> Guardar cambios
+            </button>
         </div>
-
-    
-
+    </form>
+</div>
 
 @include('includes.footer')
 

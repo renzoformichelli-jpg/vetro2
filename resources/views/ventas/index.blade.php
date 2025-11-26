@@ -1,14 +1,15 @@
 @include('includes.header')
 
 <div class="centrar-div">
-    <div class="centrar-div"><span class="icono shopping-cart 120"></span></div>
+    <div class="centrar-div"><span class="icono dollar-sign 120"></span></div>
 
     <div class="separador 10"></div>
-
-    <h1>Compras</h1>
+      <div class="centrar-div transparente">
+      <h1>Ventas</h1>
+      </div>
     <div class="centrar-div transparente">
-    <a href="{{ route('compras.create') }}" class="boton">
-      <span class="icono circle-plus 24"></span> Agregar compra
+    <a href="{{ route('ventas.create') }}" class="boton">
+      <span class="icono circle-plus 24"></span> Agregar venta
     </a>
     </div>
 </div>
@@ -25,10 +26,10 @@
       <thead>
         <tr>
           <th>ID</th>
-          <th>Proveedor</th>
+          <th>Cliente</th>
           <th>Productos</th>
           <th>Observaciones</th>
-          <th>Costo</th>
+          <th>Total</th>
           <th>Fecha</th>
           <th>Acciones</th>
         </tr>
@@ -44,19 +45,34 @@
       </thead>
 
       <tbody>
-        @foreach($compras as $compra)
+        @foreach($ventas as $venta)
         <tr>
-          <td>{{ $compra->id }}</td>
-          <td>{{ $compra->proveedor }}</td>
-          <td>{{ $compra->productos }}</td>
-          <td>{{ $compra->observaciones }}</td>
-          <td>${{ $compra->total_precios }}</td>
-          <td>{{ \Carbon\Carbon::parse($compra->fecha)->format('d/m/Y') }}</td>
+          <td>{{ $venta->id }}</td>
+
+          <!-- Cliente: nombre + apellido -->
+          <td>
+            {{ $venta->cliente_nombre ?? '' }}
+            {{ $venta->cliente_apellido ?? '' }}
+          </td>
+
+          <!-- Productos concatenados con cantidades -->
+          <td>
+            {{ $venta->productos_listado ?? '—' }}
+          </td>
+
+          <!-- Observaciones (vienen de ventas.observaciones) -->
+          <td>{{ $venta->observaciones ?? '—' }}</td>
+
+          <!-- Total calculado -->
+          <td>${{ number_format($venta->total ?? 0, 2, ',', '.') }}</td>
+
+          <!-- Fecha formato dd/mm/yyyy -->
+          <td>{{ \Carbon\Carbon::parse($venta->fecha)->format('d/m/Y') }}</td>
 
           <td>
             <div class="acciones-inline">
 
-              <form action="{{ route('compras.show', $compra->id) }}" method="GET" style="display:inline;">
+              <form action="{{ route('ventas.show', $venta->id) }}" method="GET" style="display:inline;">
                   <button type="submit" class="icono-ver" title="Ver">
                       <span class="icono eye 24 icono-ver"></span>
                   </button>
@@ -64,7 +80,7 @@
 
                &nbsp;
 
-              <form action="{{ route('compras.edit', $compra->id) }}" method="GET" style="display:inline;">
+              <form action="{{ route('ventas.edit', $venta->id) }}" method="GET" style="display:inline;">
                   <button type="submit" class="icono-editar" title="Editar">
                       <span class="icono square-pen 24 icono-editar"></span>
                   </button>
@@ -72,7 +88,7 @@
 
               &nbsp;
 
-              <form class="form-eliminar" action="{{ route('compras.destroy', $compra->id) }}" method="POST" style="display:inline;" onsubmit="return confirmarEliminacion(this)">
+              <form class="form-eliminar" action="{{ route('ventas.destroy', $venta->id) }}" method="POST" style="display:inline;" onsubmit="return confirmarEliminacion(this)">
                   @csrf
                   @method('DELETE')
                   <button type="submit" class="icono-eliminar" title="Eliminar">
@@ -89,4 +105,3 @@
 </div>
 
 @include('includes.footer')
-

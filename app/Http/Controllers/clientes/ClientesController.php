@@ -42,7 +42,7 @@ class ClientesController extends Controller
             'updated_at' => now()
         ]);
 
-        return redirect()->route('clientes.index');
+        return redirect()->route('clientes.index')->with('success', 'Cliente agregado correctamente');
     }
 
     // FORM EDITAR
@@ -69,13 +69,13 @@ class ClientesController extends Controller
             'updated_at' => now()
         ]);
 
-        return redirect()->route('clientes.index');
+        return redirect()->route('clientes.index')->with('success', 'Cliente actualizado correctamente');
     }
 
     // ELIMINAR
     public function destroy($id)
     {
         DB::table('clientes')->where('id', $id)->delete();
-        return redirect()->route('clientes.index');
+        return redirect()->route('clientes.index')->with('success', 'Cliente eliminado correctamente');
     }
 }

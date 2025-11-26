@@ -4,18 +4,18 @@
 
 <div style="max-width: 900px; margin: auto; padding: 20px; border: 1px solid #ccc; background: #fff;">
     
-    <h1 style="text-align:center;">Factura de Compra #{{ $compra->compra_id }}</h1>
+    <h1 style="text-align:center;">Factura de Venta #{{ $venta->id }}</h1>
     <hr>
 
-    <!-- Datos del proveedor y compra -->
+    <!-- Datos del cliente y venta -->
     <div style="display:flex; justify-content:space-between; margin-bottom: 20px;">
         <div>
-            <strong>Proveedor:</strong> {{ $compra->proveedor }}<br>
-            <strong>Fecha:</strong> {{ \Carbon\Carbon::parse($compra->fecha)->format('d/m/Y') }}<br>
-            <strong>Observaciones:</strong> {{ $compra->observaciones ?? '-' }}
+            <strong>Cliente:</strong> {{ $venta->cliente }}<br>
+            <strong>Fecha:</strong> {{ \Carbon\Carbon::parse($venta->fecha)->format('d/m/Y') }}<br>
+            <strong>Observaciones:</strong> {{ $venta->observaciones ?? '-' }}
         </div>
         <div>
-            <strong>ID Compra:</strong> {{ $compra->id }}<br>
+            <strong>ID Venta:</strong> {{ $venta->id }}<br>
         </div>
     </div>
 
@@ -57,26 +57,26 @@
 
     <div class="centrar-div" style="display:flex; gap:10px; flex-wrap: wrap;">
 
-            
-            <form action="{{ route('compras.edit', $compra->id) }}" method="GET">
+            <form action="{{ route('ventas.edit', $venta->id) }}" method="GET">
                   <button type="submit" class="boton centrar-elemento" title="Editar">
-                      <span></span>Editar compra
+                      <span></span>Editar venta
                   </button>
-              </form>
+            </form>
 
-            <form class="form-eliminar" action="{{ route('compras.destroy', $compra->id) }}" method="POST" ; onsubmit="return confirmarEliminacion(this)">
+            <form class="form-eliminar" action="{{ route('ventas.destroy', $venta->id) }}" method="POST" ; onsubmit="return confirmarEliminacion(this)">
             @csrf
             @method('DELETE')
             <button type="submit" class="boton centrar-elemento" >
-                <span ></span> Eliminar compra
+                <span ></span> Eliminar venta
             </button>
             </form>
 
-            
-            <a href="{{ route('compras.index') }}" class="boton centrar-elemento">
+            <!-- Volver al índice -->
+            <a href="{{ route('ventas.index') }}" class="boton centrar-elemento">
                 <span ></span> Volver al inicio
             </a>
-    </div>
+
+        </div>
 </div>
 
 @include('includes.footer')

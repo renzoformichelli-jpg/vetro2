@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-11-2025 a las 20:00:10
+-- Tiempo de generación: 26-11-2025 a las 23:40:47
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -106,7 +106,77 @@ INSERT INTO `clientes` (`id`, `nombre`, `apellido`, `dni`, `celular`, `email`, `
 (36, 'Camila', 'Aguirre', '29885566', '1133225544', 'cami.aguirre@gmail.com', '1996-03-31', '2025-11-20 18:32:39', '2025-11-20 18:32:39'),
 (37, 'Leandro', 'Bustamante', '31220011', '1155446688', 'lean.bustamante@gmail.com', '1989-09-28', '2025-11-20 18:32:39', '2025-11-20 18:32:39'),
 (38, 'Bianca', 'Soria', '30007788', '1166557799', 'bianca.soria@hotmail.com', '1992-02-03', '2025-11-20 18:32:39', '2025-11-20 18:32:39'),
-(39, 'Tomás', 'García', '28991177', '1177665544', 'tomas.garcia@gmail.com', '1995-06-12', '2025-11-20 18:32:39', '2025-11-20 18:32:39');
+(39, 'Tomás', 'García', '28991177', '1177665544', 'tomas.garcia@gmail.com', '1995-06-12', '2025-11-20 18:32:39', '2025-11-20 18:32:39'),
+(41, 'Renzo', 'Formichelli', '42056927', '1164063966', 'renzoformichelli@gmail.com', '1999-08-27', '2025-11-26 23:52:08', '2025-11-26 23:52:08');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `compras`
+--
+
+CREATE TABLE `compras` (
+  `id` int(11) NOT NULL,
+  `id_proveedor` int(11) NOT NULL,
+  `fecha` date NOT NULL,
+  `observaciones` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `compras`
+--
+
+INSERT INTO `compras` (`id`, `id_proveedor`, `fecha`, `observaciones`, `created_at`, `updated_at`) VALUES
+(7, 7, '2025-11-04', 'Monitores y mousepads', '2025-11-04 19:40:31', '2025-11-27 01:39:47'),
+(8, 8, '2025-11-05', 'Periféricos varios', '2025-11-05 13:02:19', '2025-11-05 13:02:19'),
+(9, 9, '2025-11-05', 'Reposición general', '2025-11-05 17:58:42', '2025-11-05 17:58:42'),
+(10, 10, '2025-11-06', 'Monitores y teclados', '2025-11-06 12:44:11', '2025-11-06 12:44:11'),
+(30, 4, '2025-11-25', 'nos invaden', '2025-11-25 23:22:38', '2025-11-25 23:22:38'),
+(32, 2, '2025-11-08', 'nashe', '2025-11-27 00:23:56', '2025-11-27 00:23:56'),
+(33, 1, '2025-11-13', 'peruano', '2025-11-27 00:27:14', '2025-11-27 00:38:36'),
+(35, 2, '1212-12-12', 'sdfuighbbyioasbipSDG', '2025-11-27 01:37:59', '2025-11-27 01:38:08');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `compras_detalle`
+--
+
+CREATE TABLE `compras_detalle` (
+  `id` int(11) NOT NULL,
+  `id_compra` int(11) NOT NULL,
+  `id_producto` int(11) NOT NULL,
+  `cantidad` int(11) NOT NULL,
+  `precio_unitario` decimal(10,2) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `compras_detalle`
+--
+
+INSERT INTO `compras_detalle` (`id`, `id_compra`, `id_producto`, `cantidad`, `precio_unitario`, `created_at`, `updated_at`) VALUES
+(16, 8, 53, 10, 140.00, '2025-11-20 19:42:39', '2025-11-20 19:42:39'),
+(17, 8, 54, 5, 180.00, '2025-11-20 19:42:39', '2025-11-20 19:42:39'),
+(18, 8, 55, 10, 70.00, '2025-11-20 19:42:39', '2025-11-20 19:42:39'),
+(19, 9, 56, 7, 100.00, '2025-11-20 19:42:39', '2025-11-20 19:42:39'),
+(20, 9, 59, 5, 120.00, '2025-11-20 19:42:39', '2025-11-20 19:42:39'),
+(21, 9, 63, 12, 90.00, '2025-11-20 19:42:39', '2025-11-20 19:42:39'),
+(22, 10, 57, 8, 150.00, '2025-11-20 19:42:39', '2025-11-20 19:42:39'),
+(23, 10, 56, 4, 100.00, '2025-11-20 19:42:39', '2025-11-20 19:42:39'),
+(24, 10, 61, 6, 140.00, '2025-11-20 19:42:39', '2025-11-20 19:42:39'),
+(25, 30, 44, 23, 140.00, '2025-11-25 23:22:38', '2025-11-25 23:22:38'),
+(26, 30, 53, 30, 400.00, '2025-11-25 23:22:38', '2025-11-25 23:22:38'),
+(27, 30, 43, 20, 2000.00, '2025-11-25 23:22:38', '2025-11-25 23:22:38'),
+(31, 32, 60, 12, 12.00, '2025-11-27 00:23:56', '2025-11-27 00:23:56'),
+(32, 32, 54, 12, 12.00, '2025-11-27 00:23:56', '2025-11-27 00:23:56'),
+(35, 33, 52, 12, 12.00, '2025-11-27 00:38:36', '2025-11-27 00:38:36'),
+(41, 35, 70, 120, 12.00, '2025-11-27 01:38:08', '2025-11-27 01:38:08'),
+(42, 7, 52, 8, 120.00, '2025-11-27 01:39:47', '2025-11-27 01:39:47'),
+(43, 7, 67, 200, 50.00, '2025-11-27 01:39:47', '2025-11-27 01:39:47');
 
 -- --------------------------------------------------------
 
@@ -213,14 +283,14 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`id`, `nombre`, `costo`, `valor_venta`, `id_proveedores`, `created_at`, `updated_at`) VALUES
-(40, 'Teclado Mecánico K200', 150.00, 225.00, 1, '2025-11-20 17:49:27', '2025-11-20 17:49:27'),
+(40, 'Teclado Mecánico K200', 150.00, 225.00, 1, '2025-11-20 17:49:27', '2025-11-25 21:37:39'),
 (41, 'Monitor 24\" FullHD', 200.00, 300.00, 2, '2025-11-20 17:49:27', '2025-11-20 17:49:27'),
 (42, 'Mouse Óptico M50', 80.00, 120.00, 2, '2025-11-20 17:49:27', '2025-11-20 17:49:27'),
 (43, 'Webcam HD 1080p', 90.00, 135.00, 2, '2025-11-20 17:49:27', '2025-11-20 17:49:27'),
 (44, 'Auricular Inalámbrico A10', 110.00, 165.00, 3, '2025-11-20 17:49:27', '2025-11-20 17:49:27'),
 (45, 'Teclado Compacto T50', 130.00, 195.00, 3, '2025-11-20 17:49:27', '2025-11-20 17:49:27'),
-(46, 'Monitor 27\" 2K', 250.00, 375.00, 4, '2025-11-20 17:49:27', '2025-11-20 17:49:27'),
-(47, 'Mouse Gamer Razer', 95.00, 142.00, 4, '2025-11-20 17:49:27', '2025-11-20 17:49:27'),
+(46, 'Monitor 27\" 2K', 250.00, 375.00, 4, '2025-11-20 17:49:27', '2025-11-25 21:18:59'),
+(47, 'Mouse Gamer Razer', 95.00, 142.00, 4, '2025-11-20 17:49:27', '2025-11-25 21:42:20'),
 (48, 'Auricular Bluetooth B5', 100.00, 150.00, 5, '2025-11-20 17:49:27', '2025-11-20 17:49:27'),
 (49, 'Teclado RGB T70', 160.00, 240.00, 5, '2025-11-20 17:49:27', '2025-11-20 17:49:27'),
 (50, 'Monitor Curvo 32\"', 300.00, 450.00, 6, '2025-11-20 17:49:27', '2025-11-20 17:49:27'),
@@ -252,7 +322,7 @@ INSERT INTO `productos` (`id`, `nombre`, `costo`, `valor_venta`, `id_proveedores
 (76, 'Auricular Gamer Z5', 130.00, 195.00, 20, '2025-11-20 17:49:27', '2025-11-20 17:49:27'),
 (77, 'Teclado Compacto T150', 150.00, 225.00, 20, '2025-11-20 17:49:27', '2025-11-20 17:49:27'),
 (78, 'auricular gamer x1', 1200.00, 1800.00, 1, '2025-11-20 21:07:27', '2025-11-20 21:07:27'),
-(79, 'monitor elote', 123124.00, 53456457.00, 21, '2025-11-20 21:09:06', '2025-11-20 21:09:06');
+(80, 'Teclado RedRagon Shiva', 50.00, 67.00, 19, '2025-11-25 21:35:56', '2025-11-25 21:35:56');
 
 -- --------------------------------------------------------
 
@@ -276,7 +346,7 @@ CREATE TABLE `proveedores` (
 --
 
 INSERT INTO `proveedores` (`id`, `nombre`, `persona_contacto`, `sitio_web`, `celular`, `email`, `created_at`, `updated_at`) VALUES
-(1, 'TechSolutions SA', 'Carlos Gómez', 'https://techsolutions.com', '1134567890', 'carlos.gomez@techsolutions.com', '2025-11-20 15:33:39', '2025-11-20 15:33:39'),
+(1, 'TechSolutions Sociedad Anónima', 'Carlos Gómez', 'https://techsolutions.com', '1134567890', 'carlos.gomez@techsolutions.com', '2025-11-20 15:33:39', '2025-11-26 23:48:30'),
 (2, 'Distribuidora Andina', 'Marta Rivas', 'https://andina.com.ar', '1145678901', 'mrivas@andina.com.ar', '2025-11-20 15:33:39', '2025-11-20 15:33:39'),
 (3, 'ElectroMundo', 'Luis Pereyra', 'https://electromundo.com', '1156789012', 'lpereyra@electromundo.com', '2025-11-20 15:33:39', '2025-11-20 15:33:39'),
 (4, 'GlobalParts', 'Sofía Aguirre', 'https://globalparts.com', '1167890123', 'saguirre@globalparts.com', '2025-11-20 15:33:39', '2025-11-20 15:33:39'),
@@ -295,8 +365,7 @@ INSERT INTO `proveedores` (`id`, `nombre`, `persona_contacto`, `sitio_web`, `cel
 (17, 'MegaDistribución', 'Rocío Fernández', 'https://megadistribucion.com', '1133456789', 'rfernandez@megadistribucion.com', '2025-11-20 15:33:39', '2025-11-20 15:33:39'),
 (18, 'PuntoHardware', 'Cristian Barrios', 'https://puntohardware.com', '1144567890', 'cbarrios@puntohardware.com', '2025-11-20 15:33:39', '2025-11-20 15:33:39'),
 (19, 'AlphaTech', 'Fernanda Quiroga', 'https://alphatech.com', '1155678901', 'fquiroga@alphatech.com', '2025-11-20 15:33:39', '2025-11-20 15:33:39'),
-(20, 'NovaSupply', 'Matías Reynoso', 'https://novasupply.net', '1166789012', 'mreynoso@novasupply.net', '2025-11-20 15:33:39', '2025-11-20 15:33:39'),
-(21, 'pepitotechtitanium', 'furgencio armando', 'www.pepitotech.com.ar', '12780369178263', 'pepito@gmial.com', '2025-11-20 19:39:54', '2025-11-20 19:54:34');
+(20, 'NovaSupply', 'Matías Reynoso', 'https://novasupply.net', '1166789012', 'mreynoso@novasupply.net', '2025-11-20 15:33:39', '2025-11-20 15:33:39');
 
 -- --------------------------------------------------------
 
@@ -318,10 +387,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('F68g8tjs7QBjtxguAbk1ObLvVaXnRlsbRHzWJgCt', NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoieHlVVGVhYWVCdVdnckppcTZEdVVuQXY3MjlHMDFncnNhQVI2Vkh0SCI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mzg6Imh0dHA6Ly9sb2NhbGhvc3QvdmV0cm8vcHVibGljL2NsaWVudGVzIjtzOjU6InJvdXRlIjtzOjE0OiJjbGllbnRlcy5pbmRleCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1763664652),
-('mqQNCXq1wyfBbQEgdUaADCjWiiYF0KUn6IAKFhC5', NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiVnN0NXVMaDVUN0Q4RTRRTHJBWkMzazQ5UWljM1hvQ3VyNVNWUEN3VSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6NDE6Imh0dHA6Ly9sb2NhbGhvc3QvdmV0cm8vcHVibGljL3Byb3ZlZWRvcmVzIjtzOjU6InJvdXRlIjtzOjE3OiJwcm92ZWVkb3Jlcy5pbmRleCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1763650797),
-('mwTjIIboHWeXtLOHeCTsQ4PIMzJkuY8wkXFpDBa4', NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoicmpCaVlKeVcwR3NwWjVkamN4WjJOQ3VnYm9kYkR6WDdGaTBwSVN1TSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mjk6Imh0dHA6Ly9sb2NhbGhvc3QvdmV0cm8vcHVibGljIjtzOjU6InJvdXRlIjtOO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX19', 1763650519),
-('VKIF2xOhmzi0JpzaAJFUjIbW2N4uUiNWk9Lngjca', NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiUWE4bnZsdUpxYk9tU2hFMVU0dERPTzBhMnNZTWVpNXN6MUY5WDZIRiI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mjk6Imh0dHA6Ly9sb2NhbGhvc3QvdmV0cm8vcHVibGljIjtzOjU6InJvdXRlIjtOO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX19', 1763648551);
+('W1qCVUgZnIGMM476paU8y0qO8eGVNn2KK4D5zq26', NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiRjczckt4U3o2c0laVzJKVzc2YmcwR0x5VE91d0VSRGFDc2JxSDJMdiI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzY6Imh0dHA6Ly9sb2NhbGhvc3QvdmV0cm8vcHVibGljL3ZlbnRhcyI7czo1OiJyb3V0ZSI7czoxMjoidmVudGFzLmluZGV4Ijt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1764196801);
 
 -- --------------------------------------------------------
 
@@ -339,6 +405,61 @@ CREATE TABLE `users` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ventas`
+--
+
+CREATE TABLE `ventas` (
+  `id` int(11) NOT NULL,
+  `id_cliente` int(11) NOT NULL,
+  `fecha` date NOT NULL,
+  `observaciones` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `ventas`
+--
+
+INSERT INTO `ventas` (`id`, `id_cliente`, `fecha`, `observaciones`, `created_at`, `updated_at`) VALUES
+(2, 2, '2025-11-21', 'Cliente pidió envío a domicilio', '2025-11-26 17:34:34', '2025-11-26 17:34:34'),
+(3, 3, '2025-11-22', 'Incluye descuento del 10%', '2025-11-26 17:34:34', '2025-11-26 17:34:34'),
+(4, 1, '2025-11-23', 'Compra repetida del mismo producto', '2025-11-26 17:34:34', '2025-11-26 17:34:34'),
+(8, 7, '1212-12-12', 'hola', '2025-11-26 23:10:29', '2025-11-26 23:34:03'),
+(10, 20, '1212-12-12', 'AAAAAAAAAAAAAAAAAAAAAAA', '2025-11-26 23:23:16', '2025-11-27 01:38:38');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ventas_detalles`
+--
+
+CREATE TABLE `ventas_detalles` (
+  `id` int(11) NOT NULL,
+  `id_venta` int(11) NOT NULL,
+  `id_producto` int(11) NOT NULL,
+  `cantidad` int(11) NOT NULL,
+  `precio_unitario` decimal(10,2) NOT NULL,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `ventas_detalles`
+--
+
+INSERT INTO `ventas_detalles` (`id`, `id_venta`, `id_producto`, `cantidad`, `precio_unitario`, `created_at`, `updated_at`) VALUES
+(2, 2, 45, 1, 195.00, '2025-11-26 17:45:31', '2025-11-26 17:45:31'),
+(3, 3, 50, 3, 450.00, '2025-11-26 17:45:31', '2025-11-26 17:45:31'),
+(4, 4, 60, 1, 195.00, '2025-11-26 17:45:31', '2025-11-26 17:45:31'),
+(13, 8, 54, 12, 1212.00, '2025-11-26 23:34:03', '2025-11-26 23:34:03'),
+(14, 8, 58, 12, 12.00, '2025-11-26 23:34:03', '2025-11-26 23:34:03'),
+(15, 10, 56, 12, 900.00, '2025-11-27 01:38:38', '2025-11-27 01:38:38'),
+(16, 10, 45, 1, 6000.00, '2025-11-27 01:38:38', '2025-11-27 01:38:38');
 
 --
 -- Índices para tablas volcadas
@@ -362,6 +483,21 @@ ALTER TABLE `cache_locks`
 ALTER TABLE `clientes`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `dni` (`dni`);
+
+--
+-- Indices de la tabla `compras`
+--
+ALTER TABLE `compras`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_proveedor` (`id_proveedor`);
+
+--
+-- Indices de la tabla `compras_detalle`
+--
+ALTER TABLE `compras_detalle`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_compra` (`id_compra`),
+  ADD KEY `id_producto` (`id_producto`);
 
 --
 -- Indices de la tabla `failed_jobs`
@@ -424,6 +560,21 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `users_email_unique` (`email`);
 
 --
+-- Indices de la tabla `ventas`
+--
+ALTER TABLE `ventas`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `ventas_fk_cliente` (`id_cliente`);
+
+--
+-- Indices de la tabla `ventas_detalles`
+--
+ALTER TABLE `ventas_detalles`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `venta_detalles_fk_venta` (`id_venta`),
+  ADD KEY `venta_detalles_fk_producto` (`id_producto`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
@@ -431,7 +582,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+
+--
+-- AUTO_INCREMENT de la tabla `compras`
+--
+ALTER TABLE `compras`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+
+--
+-- AUTO_INCREMENT de la tabla `compras_detalle`
+--
+ALTER TABLE `compras_detalle`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT de la tabla `failed_jobs`
@@ -455,7 +618,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
 
 --
 -- AUTO_INCREMENT de la tabla `proveedores`
@@ -470,14 +633,52 @@ ALTER TABLE `users`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `ventas`
+--
+ALTER TABLE `ventas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT de la tabla `ventas_detalles`
+--
+ALTER TABLE `ventas_detalles`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `compras`
+--
+ALTER TABLE `compras`
+  ADD CONSTRAINT `compras_ibfk_1` FOREIGN KEY (`id_proveedor`) REFERENCES `proveedores` (`id`) ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `compras_detalle`
+--
+ALTER TABLE `compras_detalle`
+  ADD CONSTRAINT `compras_detalle_ibfk_1` FOREIGN KEY (`id_compra`) REFERENCES `compras` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `compras_detalle_ibfk_2` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `productos`
 --
 ALTER TABLE `productos`
   ADD CONSTRAINT `productos_ibfk_1` FOREIGN KEY (`id_proveedores`) REFERENCES `proveedores` (`id`);
+
+--
+-- Filtros para la tabla `ventas`
+--
+ALTER TABLE `ventas`
+  ADD CONSTRAINT `ventas_fk_cliente` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id`) ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `ventas_detalles`
+--
+ALTER TABLE `ventas_detalles`
+  ADD CONSTRAINT `venta_detalles_fk_producto` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `venta_detalles_fk_venta` FOREIGN KEY (`id_venta`) REFERENCES `ventas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
