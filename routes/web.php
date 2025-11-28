@@ -61,7 +61,8 @@ Route::delete('/ventas/{id}', [VentasController::class, 'destroy'])->name('venta
 // COMPRAS (CRUD)
 // ---------------------------
 Route::get('/compras/metricas', [ComprasController::class, 'metricas'])->name('compras.metricas');
-Route::post('/compras/metricas/rango', [ComprasController::class, 'metricasPorRango'])->name('compras.metricas.rango');
+Route::get('/compras/metricas/rango', [ComprasController::class, 'metricasPorRango'])
+    ->name('compras.metricas.rango');
 Route::get('/compras', [ComprasController::class, 'index'])->name('compras.index');
 Route::get('/compras/create', [ComprasController::class, 'create'])->name('compras.create');
 Route::post('/compras', [ComprasController::class, 'store'])->name('compras.store');

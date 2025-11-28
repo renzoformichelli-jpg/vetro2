@@ -18,55 +18,77 @@
     </div>
 </div>
 
-{{-- GRAFICO --}}
+{{-- CAJITA DEL GRÁFICO + LISTA + TOTAL A LA DERECHA --}}
 <div class="columnas centrar-div">
     <div style="width: 100%; padding-bottom: 15px; margin-top: 40px;">
+
         <h2 style="text-align:center; margin-bottom: 20px;">Compras por Proveedor</h2>
+
         <div style="width: 100%; overflow-x: auto;">
             <div style="min-width: 900px;">
-                <div style="position: relative; width: 100%; height: 320px;">
-                    <canvas id="graficoComprasRango"></canvas>
+
+                {{-- ROW: GRÁFICO A LA IZQUIERDA + TOTAL A LA DERECHA --}}
+                <div style="display:flex; width:100%; gap:20px;">
+
+                    {{-- GRÁFICO --}}
+                    <div style="flex:3; position: relative; height: 320px;">
+                        <canvas id="graficoComprasRango"></canvas>
+                    </div>
+
+                    {{-- TOTAL (NO HISTÓRICO) --}}
+                    <div style="
+                        flex:1;
+                        background:#e8e8e8;
+                        border-radius:10px;
+                        padding:20px;
+                        font-size:20px;
+                        font-weight:bold;
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                        text-align:center;
+                    ">
+                        Total<br>
+                        ${{ number_format($metricas->sum('costo_total'), 2, ',', '.') }}
+                    </div>
+
                 </div>
+
+                {{-- BOTÓN PARA MOSTRAR/OCULTAR LISTA --}}
+                <div style="margin-top:25px;">
+                    <button 
+                        id="toggleListaBtn" 
+                        class="boton" 
+                        style="width:230px;"
+                    >
+                        Mostrar detalle ▼
+                    </button>
+                </div>
+
+                {{-- LISTA (PLEGADA POR DEFECTO) --}}
+                <div id="listaContainer" style="display:none; margin-top: 30px; padding: 20px;">
+
+                    @if($metricas->isEmpty())
+                        <p style="text-align:center; font-weight:bold;">No hay datos disponibles para este rango</p>
+                    @else
+                        <ul style="list-style:none; padding:0;">
+                            @foreach($metricas as $m)
+                                <li style="background:#f5f5f5; padding:15px; border-radius:10px; margin-bottom:15px;">
+                                    <strong style="font-size:18px;">{{ $m->nombre }}</strong>
+                                    <br><br>
+                                    • Cantidad de compras: {{ $m->cantidad_compras }} <br>
+                                    • Costo total: ${{ number_format($m->costo_total, 2, ',', '.') }} <br>
+                                    • Porcentaje: {{ $m->porcentaje }}%
+                                </li>
+                            @endforeach
+                        </ul>
+                    @endif
+
+                </div>
+
             </div>
         </div>
-    </div>
-</div>
 
-{{-- TABLA --}}
-<div class="columnas">
-    <div class="tabla-responsive padding">
-        <table id="miTabla" class="display dataTable">
-            <thead>
-                <tr>
-                    <th>Proveedor</th>
-                    <th>Cantidad de Compras</th>
-                    <th>Porcentaje</th>
-                    <th>Costo Total</th>
-                </tr>
-                <tr class="filtros">
-                    <th><select class="filtro-columna"></select></th>
-                    <th><select class="filtro-columna"></select></th>
-                    <th><select class="filtro-columna"></select></th>
-                    <th><select class="filtro-columna"></select></th>
-                </tr>
-            </thead>
-            <tbody>
-                @if($metricas->isEmpty())
-                <tr>
-                    <td colspan="4" style="text-align:center;">No hay datos disponibles para este rango</td>
-                </tr>
-                @else
-                @foreach($metricas as $m)
-                <tr>
-                    <td>{{ $m->nombre }}</td>
-                    <td>{{ $m->cantidad_compras }}</td>
-                    <td>{{ $m->porcentaje }}%</td>
-                    <td>${{ number_format($m->costo_total, 2, ',', '.') }}</td>
-                </tr>
-                @endforeach
-                @endif
-            </tbody>
-        </table>
     </div>
 </div>
 
@@ -87,14 +109,42 @@ document.addEventListener("DOMContentLoaded", function () {
                 borderWidth: 1,
             }]
         },
+
         options: {
             responsive: true,
             maintainAspectRatio: false,
+
             scales: {
-                x: { ticks: { autoSkip: false, maxRotation: 60, minRotation: 45 } },
-                y: { beginAtZero: true }
+                x: {
+                    ticks: {
+                        autoSkip: false,
+                        maxRotation: 60,
+                        minRotation: 45
+                    }
+                },
+                y: {
+                    beginAtZero: true
+                }
             },
-            plugins: { legend: { display: false }, tooltip: { enabled: true } }
+
+            plugins: {
+                legend: { display: false },
+                tooltip: { enabled: true }
+            }
+        }
+    });
+
+    // === BOTÓN DESPLEGABLE ===
+    let btn = document.getElementById("toggleListaBtn");
+    let cont = document.getElementById("listaContainer");
+
+    btn.addEventListener("click", function () {
+        if (cont.style.display === "none") {
+            cont.style.display = "block";
+            btn.textContent = "Ocultar detalle ▲";
+        } else {
+            cont.style.display = "none";
+            btn.textContent = "Mostrar detalle ▼";
         }
     });
 

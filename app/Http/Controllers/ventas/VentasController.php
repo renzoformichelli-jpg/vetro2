@@ -230,6 +230,15 @@ public function metricas()
     // Total de ventas realizadas
     $totalVentas = DB::table('ventas')->count();
 
+    // Total histórico ganado (suma de todas las ventas)
+    $totalGanado = DB::table('ventas_detalles')
+        ->join('productos', 'productos.id', '=', 'ventas_detalles.id_producto')
+        ->select(DB::raw('SUM(productos.valor_venta * ventas_detalles.cantidad) as total'))
+        ->value('total');
+
+    // Si no hay ventas, totalGanado queda en 0
+    $totalGanado = $totalGanado ?? 0;
+
     // Obtener clientes y contar cuántas ventas se les hizo
     $metricas = DB::table('clientes')
         ->leftJoin('ventas', 'ventas.id_cliente', '=', 'clientes.id')
@@ -261,7 +270,13 @@ public function metricas()
     $labels = $metricas->pluck('nombre');
     $cantidades = $metricas->pluck('cantidad_ventas');
 
-    return view('ventas.metricas', compact('metricas', 'totalVentas', 'labels', 'cantidades'));
+    return view('ventas.metricas', compact(
+        'metricas',
+        'totalVentas',
+        'labels',
+        'cantidades',
+        'totalGanado' // <-- agregado
+    ));
 }
 
 // Métricas por rango de fechas
@@ -279,11 +294,20 @@ public function metricasPorRango(Request $request)
         ->whereBetween('created_at', [$fechaInicio, $fechaFin])
         ->count();
 
+    // *** AGREGADO: total ganado en el rango ***
+    $totalGanadoRango = DB::table('ventas')
+        ->leftJoin('ventas_detalles', 'ventas_detalles.id_venta', '=', 'ventas.id')
+        ->leftJoin('productos', 'productos.id', '=', 'ventas_detalles.id_producto')
+        ->whereBetween('ventas.created_at', [$fechaInicio, $fechaFin])
+        ->select(DB::raw('SUM(productos.valor_venta * ventas_detalles.cantidad) AS total'))
+        ->value('total') ?? 0;
+
     if ($totalVentas == 0) {
         $metricas = collect();
         $labels = collect();
         $cantidades = collect();
     } else {
+
         $metricas = DB::table('clientes')
             ->leftJoin('ventas', 'ventas.id_cliente', '=', 'clientes.id')
             ->leftJoin('ventas_detalles', 'ventas_detalles.id_venta', '=', 'ventas.id')
@@ -300,9 +324,13 @@ public function metricasPorRango(Request $request)
             ->groupBy('clientes.id', 'clientes.nombre')
             ->get()
             ->map(function ($item) use ($totalVentas) {
-                $item->porcentaje = $totalVentas > 0 ? round(($item->cantidad_ventas / $totalVentas) * 100, 2) : 0;
+                $item->porcentaje = $totalVentas > 0
+                    ? round(($item->cantidad_ventas / $totalVentas) * 100, 2)
+                    : 0;
+
                 $item->valor_total = $item->valor_total ?? 0;
                 $item->proveedores = $item->proveedores ?? '';
+
                 return $item;
             });
 
@@ -312,7 +340,7 @@ public function metricasPorRango(Request $request)
 
     return view(
         'ventas.rango',
-        compact('metricas', 'labels', 'cantidades', 'fechaInicio', 'fechaFin')
+        compact('metricas', 'labels', 'cantidades', 'fechaInicio', 'fechaFin', 'totalGanadoRango', 'totalVentas')
     );
 }
 

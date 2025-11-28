@@ -249,48 +249,51 @@ public function index()
 
 
 
-   public function metricas()
-{
-    // Total de compras realizadas
-    $totalCompras = DB::table('compras')->count();
+    public function metricas()
+    {
+        // Obtener todos los proveedores
+        $proveedores = DB::table('proveedores')->get();
 
-    // Obtener proveedores y contar cuántas compras se les hizo
-    $metricas = DB::table('proveedores')
-        ->leftJoin('compras', 'compras.id_proveedor', '=', 'proveedores.id')
-        ->select(
-            'proveedores.id',
-            'proveedores.nombre',
-            DB::raw('COUNT(compras.id) as cantidad_compras')
-        )
-        ->groupBy('proveedores.id', 'proveedores.nombre')
-        ->get()
-        ->map(function ($item) use ($totalCompras) {
-            $item->porcentaje = $totalCompras > 0 
-                ? round(($item->cantidad_compras / $totalCompras) * 100, 2)
-                : 0;
-            return $item;
+        $metricas = $proveedores->map(function ($prov) {
+
+            // Cantidad de compras realizadas a este proveedor
+            $cantidadCompras = DB::table('compras')
+                ->where('id_proveedor', $prov->id)
+                ->count();
+
+            // Total gastado (sumatoria de cantidad * precio_unitario)
+            $totalGastado = DB::table('compras')
+                ->join('compras_detalle', 'compras.id', '=', 'compras_detalle.id_compra')
+                ->where('compras.id_proveedor', $prov->id)
+                ->select(DB::raw('SUM(compras_detalle.cantidad * compras_detalle.precio_unitario) as total'))
+                ->value('total');
+
+            if (!$totalGastado) $totalGastado = 0;
+
+            return (object)[
+                'id' => $prov->id,
+                'nombre' => $prov->nombre,
+                'cantidad_compras' => $cantidadCompras,
+                'total_gastado' => $totalGastado
+            ];
         });
 
-    // Si no hay compras, aseguramos al menos una fila vacía
-    if ($metricas->isEmpty()) {
-        $metricas = collect([
-            (object)[
-                'id' => null,
-                'nombre' => '',
-                'cantidad_compras' => 0,
-                'porcentaje' => 0
-            ]
-        ]);
+        // Total histórico = suma de todos los totales gastados por todos los proveedores
+        $totalHistorico = $metricas->sum('total_gastado');
+
+        // Datos para el gráfico
+        $labels = $metricas->pluck('nombre');
+        $cantidades = $metricas->pluck('cantidad_compras');
+        $totales = $metricas->pluck('total_gastado');
+
+        return view('compras.metricas', compact(
+            'metricas',
+            'labels',
+            'cantidades',
+            'totales',
+            'totalHistorico'
+        ));
     }
-
-    // Datos para gráfico
-    $labels = $metricas->pluck('nombre');
-    $cantidades = $metricas->pluck('cantidad_compras');
-
-    return view('compras.metricas', compact('metricas', 'totalCompras', 'labels', 'cantidades'));
-
-
-}
 
 // Nueva función para filtrar por rango de fechas
 public function metricasPorRango(Request $request)

@@ -2,7 +2,6 @@
 
 <div class="centrar-div">
     <div class="centrar-div"><span class="icono chart-pie 120"></span></div>
-
     <div class="separador 10"></div>
 
     <h1>Métricas de Compras</h1>
@@ -14,81 +13,98 @@
     </div>
 </div>
 
-{{-- GRAFICO --}}
+{{-- CAJITA DEL GRÁFICO + LISTA + TOTAL HISTÓRICO A LA DERECHA --}}
 <div class="columnas centrar-div">
     <div style="width: 100%; padding-bottom: 15px; margin-top: 40px;">
+
         <h2 style="text-align:center; margin-bottom: 20px;">Compras por Proveedor</h2>
+
         <div style="width: 100%; overflow-x: auto;">
             <div style="min-width: 900px;">
-                <div style="position: relative; width: 100%; height: 320px;">
-                    <canvas id="graficoCompras"></canvas>
+
+                {{-- ROW: GRÁFICO A LA IZQUIERDA + TOTAL HISTÓRICO A LA DERECHA --}}
+                <div style="display:flex; width:100%; gap:20px;">
+
+                    {{-- GRÁFICO --}}
+                    <div style="flex:3; position: relative; height: 320px;">
+                        <canvas id="graficoCompras"></canvas>
+                    </div>
+
+                    {{-- TOTAL HISTÓRICO --}}
+                    <div style="
+                        flex:1;
+                        background:#e8e8e8;
+                        border-radius:10px;
+                        padding:20px;
+                        font-size:20px;
+                        font-weight:bold;
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                        text-align:center;
+                    ">
+                        Total histórico<br>
+                        ${{ number_format($totalHistorico, 2, ',', '.') }}
+                    </div>
+
                 </div>
+
+                {{-- BOTÓN PARA MOSTRAR/OCULTAR LISTA --}}
+                <div style="margin-top:25px;">
+                    <button 
+                        id="toggleListaBtn" 
+                        class="boton" 
+                        style="width:230px;"
+                    >
+                        Mostrar detalle ▼
+                    </button>
+                </div>
+
+                {{-- LISTA (PLEGADA POR DEFECTO) --}}
+                <div id="listaContainer" style="display:none; margin-top: 30px; padding: 20px;">
+
+                    <ul style="list-style:none; padding:0;">
+                        @foreach($metricas as $m)
+                            <li style="background:#f5f5f5; padding:15px; border-radius:10px; margin-bottom:15px;">
+                                <strong style="font-size:18px;">{{ $m->nombre }}</strong>
+                                <br><br>
+                                • Cantidad de compras: {{ $m->cantidad_compras }} <br>
+                                • Total gastado: ${{ number_format($m->total_gastado, 2, ',', '.') }}
+                            </li>
+                        @endforeach
+                    </ul>
+
+                </div>
+
             </div>
         </div>
+
     </div>
 </div>
 
-<div class="contenedor">
+{{-- FORM ORIGINAL ABAJO DEL TODO, SIN TOCAR --}}
+<div style="margin-top:50px; padding:20px;">
+    <form method="GET" action="{{ route('compras.metricas.rango') }}" class="formulario-base">
+        <h1 class="centrar-texto">Filtrar por fechas</h1>
+        <div class="form-grupo">
+            <label for="fecha_inicio" class="form-label">Fecha inicio</label>
+            <input type="date" id="fecha_inicio" name="fecha_inicio" class="form-input"
+                value="{{ old('fecha_inicio', $fechaInicio ?? '') }}">
+        </div>
 
-    <form class="formulario-base" method="POST" action="{{ route('compras.metricas.rango') }}">
-        @csrf
+        <div class="form-grupo">
+            <label for="fecha_fin" class="form-label">Fecha fin</label>
+            <input type="date" id="fecha_fin" name="fecha_fin" class="form-input"
+                value="{{ old('fecha_fin', $fechaFin ?? '') }}">
+        </div>
 
-          <h1 class="centrar-texto">Filtrar por rango de fechas</h1>
+        <div class="centrar-div">
+            <button type="submit" class="boton centrar-elemento">
+                <span class="icono send 24"></span> filtrar
+            </button>
+        </div>
 
-            <div class="separador 20"></div>
-
-            <div class="form-grupo">
-                <label for="fecha_inicio" class="form-label">Fecha inicio</label>
-                <input type="date" id="fecha_inicio" name="fecha_inicio" class="form-input" value="{{ old('fecha_inicio', $fechaInicio ?? '') }}">
-            </div>
-
-            <div class="form-grupo">
-                <label for="fecha_fin" class="form-label">Fecha fin</label>
-                <input type="date" id="fecha_fin" name="fecha_fin" class="form-input" value="{{ old('fecha_fin', $fechaFin ?? '') }}">
-            </div
-
-            <div class="centrar-div">
-                <button type="submit" class="boton centrar-elemento">
-                    <span class="icono send 24"></span> filtrar
-                </button>
-            </div>
-            
     </form>
-</div>
-
-{{-- TABLA --}}
-<div class="columnas">
-    <div class="tabla-responsive padding">
-        <table id="miTabla" class="display dataTable">
-            <thead>
-                <tr>
-                    <th>Proveedor</th>
-                    <th>Cantidad de Compras</th>
-                    <th>Porcentaje</th>
-                </tr>
-                <tr class="filtros">
-                    <th><select class="filtro-columna"></select></th>
-                    <th><select class="filtro-columna"></select></th>
-                    <th><select class="filtro-columna"></select></th>
-                </tr>
-            </thead>
-            <tbody>
-                @if($metricas->isEmpty())
-                <tr>
-                    <td colspan="3" style="text-align:center;">No hay datos disponibles</td>
-                </tr>
-                @else
-                @foreach($metricas as $m)
-                <tr>
-                    <td>{{ $m->nombre }}</td>
-                    <td>{{ $m->cantidad_compras }}</td>
-                    <td>{{ $m->porcentaje }}%</td>
-                </tr>
-                @endforeach
-                @endif
-            </tbody>
-        </table>
-    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -96,6 +112,7 @@
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
+    // === GRÁFICO ===
     new Chart(document.getElementById('graficoCompras'), {
         type: 'bar',
         data: {
@@ -110,8 +127,8 @@ document.addEventListener("DOMContentLoaded", function () {
         },
 
         options: {
-            responsive: true,            // SE ADAPTA AL ANCHO DE LA PÁGINA
-            maintainAspectRatio: false,  // PERMITE ALTURA FIJA EN VEZ DE DEFORMARLO
+            responsive: true,
+            maintainAspectRatio: false,
 
             scales: {
                 x: {
@@ -133,7 +150,23 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+    // === BOTÓN DESPLEGABLE ===
+    let btn = document.getElementById("toggleListaBtn");
+    let cont = document.getElementById("listaContainer");
+
+    btn.addEventListener("click", function () {
+        if (cont.style.display === "none") {
+            cont.style.display = "block";
+            btn.textContent = "Ocultar detalle ▲";
+        } else {
+            cont.style.display = "none";
+            btn.textContent = "Mostrar detalle ▼";
+        }
+    });
+
 });
 </script>
 
 @include('includes.footer')
+
+

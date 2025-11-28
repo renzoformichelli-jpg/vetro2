@@ -51,8 +51,7 @@ class ProveedoresController extends Controller
             'updated_at'       => now(),
         ]);
 
-        return redirect()->route('proveedores.index')
-                         ->with('success', 'Proveedor creado correctamente.');
+        return redirect()->route('proveedores.index')->with('success', 'Proveedor creado correctamente.');
     }
 
     /**
@@ -88,8 +87,7 @@ class ProveedoresController extends Controller
             'updated_at'       => now(),
         ]);
 
-        return redirect()->route('proveedores.index')
-                         ->with('success', 'Proveedor actualizado correctamente.');
+        return redirect()->route('proveedores.index')->with('success', 'Proveedor actualizado correctamente.');
     }
 
     /**
@@ -100,8 +98,7 @@ class ProveedoresController extends Controller
     {
         DB::table('proveedores')->where('id', $id)->delete();
 
-        return redirect()->route('proveedores.index')
-                         ->with('success', 'Proveedor eliminado correctamente.');
+        return redirect()->route('proveedores.index')->with('success', 'Proveedor eliminado correctamente.');
     }
 
     public function metricas()

@@ -84,11 +84,12 @@
         <hr>
 
         <!-- Guardar -->
-        <div class="centrar-div">
-            <button type="submit" class="boton centrar-elemento">
-                <span class="icono send 24"></span> Guardar cambios
-            </button>
-        </div>
+       <form class="form-editar" action="/ruta-de-editar" method="POST">
+          <div class="centrar-div"><h3>Alerta editar</h3></div>
+          <div class="centrar-div">
+            <button type="submit" id="btn-editar" class="boton"><i class="icono save 22"></i>Editar</button>
+          </div>
+        </form>
     </form>
 </div>
 
