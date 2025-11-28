@@ -5,11 +5,18 @@
 
     <div class="separador 10"></div>
 
-    <h1>Proveedores</h1>
-    <div class="centrar-div transparente">
-    <a href="{{ route('proveedores.create') }}" class="boton">
-      <span class="icono circle-plus 24"></span> Agregar producto
-    </a>
+    <h1 class="centrar-texto">Proveedores</h1>
+
+    <div class="button-grid">
+
+        <a href="{{ route('proveedores.create') }}" class="boton centrar-elemento">
+          <span class="icono circle-plus 24"></span> Agregar proveedor
+        </a>
+
+        <a href="{{ route('proveedores.metricas') }}" class="boton centrar-elemento">
+          <span class="icono chart-pie 24"></span> Ver métricas 
+        </a>
+        
     </div>
 </div>
 

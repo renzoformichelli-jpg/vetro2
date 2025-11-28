@@ -5,11 +5,19 @@
 
     <div class="separador 10"></div>
 
-    <h1>Productos</h1>
+    <h1 class="centrar-texto">Productos</h1>
 
-    <a href="{{ route('productos.create') }}" class="boton centrar-elemento">
-      <span class="icono circle-plus 24"></span> Agregar producto
-    </a>
+    <div class="button-grid">
+
+        <a href="{{ route('productos.create') }}" class="boton centrar-elemento">
+          <span class="icono circle-plus 24"></span> Agregar producto
+        </a>
+
+        <a href="{{ route('productos.metricas') }}" class="boton centrar-elemento">
+          <span class="icono chart-pie 24"></span> Ver métricas 
+        </a>
+        
+    </div>
 </div>
 
 @if(session('success'))

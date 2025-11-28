@@ -83,4 +83,45 @@ class ProductosController extends Controller
         DB::table('productos')->where('id', $id)->delete();
         return redirect()->route('productos.index')->with('success', 'Producto eliminado correctamente');
     }
+
+    public function metricas()
+{
+    // Total de productos
+    $totalProductos = DB::table('productos')->count();
+    $productos = DB::table('productos')->get();
+
+    // Si no hay productos, evitar división por cero
+    if ($totalProductos == 0) {
+
+        $metricas = collect();
+        $labels = collect();
+        $cantidades = collect();
+
+    } else {
+
+        // Obtener proveedores y contar productos por cada uno
+        $metricas = DB::table('proveedores')
+            ->leftJoin('productos', 'productos.id_proveedores', '=', 'proveedores.id')
+            ->select(
+                'proveedores.id',
+                'proveedores.nombre',
+                DB::raw('COUNT(productos.id) as cantidad_productos')
+            )
+            ->groupBy('proveedores.id', 'proveedores.nombre')
+            ->get()
+            ->map(function ($item) use ($totalProductos) {
+                $item->porcentaje = round(($item->cantidad_productos / $totalProductos) * 100, 2);
+                return $item;
+            });
+
+        // Datos para el gráfico
+        $labels = $metricas->pluck('nombre');
+        $cantidades = $metricas->pluck('cantidad_productos');
+    }
+
+    return view('productos.metricas', compact('metricas', 'totalProductos', 'labels', 'cantidades'));
+}
+
+
+
 }

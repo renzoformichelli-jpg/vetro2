@@ -55,7 +55,7 @@
         </tfoot>
     </table>
 
-    <div class="centrar-div" style="display:flex; gap:10px; flex-wrap: wrap;">
+    <div class="button-grid">
 
             
             <form action="{{ route('compras.edit', $compra->id) }}" method="GET">

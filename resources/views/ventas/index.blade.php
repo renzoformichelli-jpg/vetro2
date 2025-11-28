@@ -4,13 +4,21 @@
     <div class="centrar-div"><span class="icono dollar-sign 120"></span></div>
 
     <div class="separador 10"></div>
+
       <div class="centrar-div transparente">
       <h1>Ventas</h1>
       </div>
-    <div class="centrar-div transparente">
-    <a href="{{ route('ventas.create') }}" class="boton">
-      <span class="icono circle-plus 24"></span> Agregar venta
-    </a>
+
+    <div class="button-grid">
+
+        <a href="{{ route('ventas.create') }}" class="boton centrar-elemento">
+          <span class="icono circle-plus 24"></span> Agregar venta
+        </a>
+
+        <a href="{{ route('ventas.metricas') }}" class="boton centrar-elemento">
+          <span class="icono chart-pie 24"></span> Ver métricas 
+        </a>
+        
     </div>
 </div>
 

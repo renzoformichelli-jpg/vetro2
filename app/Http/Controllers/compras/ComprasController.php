@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\compras;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Controller; // <--- Esto es correcto
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -246,4 +246,103 @@ public function index()
 
         return redirect()->route('compras.index')->with('success', 'Compra eliminada correctamente');
     }
+
+
+
+   public function metricas()
+{
+    // Total de compras realizadas
+    $totalCompras = DB::table('compras')->count();
+
+    // Obtener proveedores y contar cuántas compras se les hizo
+    $metricas = DB::table('proveedores')
+        ->leftJoin('compras', 'compras.id_proveedor', '=', 'proveedores.id')
+        ->select(
+            'proveedores.id',
+            'proveedores.nombre',
+            DB::raw('COUNT(compras.id) as cantidad_compras')
+        )
+        ->groupBy('proveedores.id', 'proveedores.nombre')
+        ->get()
+        ->map(function ($item) use ($totalCompras) {
+            $item->porcentaje = $totalCompras > 0 
+                ? round(($item->cantidad_compras / $totalCompras) * 100, 2)
+                : 0;
+            return $item;
+        });
+
+    // Si no hay compras, aseguramos al menos una fila vacía
+    if ($metricas->isEmpty()) {
+        $metricas = collect([
+            (object)[
+                'id' => null,
+                'nombre' => '',
+                'cantidad_compras' => 0,
+                'porcentaje' => 0
+            ]
+        ]);
+    }
+
+    // Datos para gráfico
+    $labels = $metricas->pluck('nombre');
+    $cantidades = $metricas->pluck('cantidad_compras');
+
+    return view('compras.metricas', compact('metricas', 'totalCompras', 'labels', 'cantidades'));
+
+
+}
+
+// Nueva función para filtrar por rango de fechas
+public function metricasPorRango(Request $request)
+{
+    $request->validate([
+        'fecha_inicio' => 'required|date',
+        'fecha_fin' => 'required|date|after_or_equal:fecha_inicio',
+    ]);
+
+    $fechaInicio = $request->fecha_inicio;
+    $fechaFin = $request->fecha_fin;
+
+    // Total de compras en el rango
+    $totalCompras = DB::table('compras')
+        ->whereBetween('created_at', [$fechaInicio, $fechaFin])
+        ->count();
+
+    if ($totalCompras == 0) {
+        // Si no hay compras, devolvemos colecciones vacías para no romper la vista
+        $metricas = collect();
+        $labels = collect();
+        $cantidades = collect();
+    } else {
+        // Obtener métricas por proveedor
+        $metricas = DB::table('proveedores')
+            ->leftJoin('compras', 'compras.id_proveedor', '=', 'proveedores.id')
+            ->leftJoin('compras_detalle', 'compras_detalle.id_compra', '=', 'compras.id')
+            ->leftJoin('productos', 'productos.id', '=', 'compras_detalle.id_producto') // para obtener el costo
+            ->whereBetween('compras.created_at', [$fechaInicio, $fechaFin])
+            ->select(
+                'proveedores.id',
+                'proveedores.nombre',
+                DB::raw('COUNT(DISTINCT compras.id) as cantidad_compras'),
+                DB::raw('SUM(productos.costo * compras_detalle.cantidad) as costo_total')
+            )
+            ->groupBy('proveedores.id', 'proveedores.nombre')
+            ->get()
+            ->map(function ($item) use ($totalCompras) {
+                $item->porcentaje = $totalCompras > 0 ? round(($item->cantidad_compras / $totalCompras) * 100, 2) : 0;
+                $item->costo_total = $item->costo_total ?? 0;
+                return $item;
+            });
+
+        // Datos para el gráfico
+        $labels = $metricas->pluck('nombre');
+        $cantidades = $metricas->pluck('cantidad_compras');
+    }
+
+    return view(
+        'compras.rango',
+        compact('metricas', 'labels', 'cantidades', 'fechaInicio', 'fechaFin')
+    );
+}
+
 }

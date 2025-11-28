@@ -5,11 +5,18 @@
 
     <div class="separador 10"></div>
 
-    <h1>Compras</h1>
-    <div class="centrar-div transparente">
-    <a href="{{ route('compras.create') }}" class="boton">
-      <span class="icono circle-plus 24"></span> Agregar compra
-    </a>
+    <h1 class="centrar-texto">Compras</h1>
+
+    <div class="button-grid">
+
+        <a href="{{ route('compras.create') }}" class="boton centrar-elemento">
+          <span class="icono circle-plus 24"></span> Agregar compra
+        </a>
+
+        <a href="{{ route('compras.metricas') }}" class="boton centrar-elemento">
+          <span class="icono chart-pie 24"></span> Ver métricas 
+        </a>
+        
     </div>
 </div>
 

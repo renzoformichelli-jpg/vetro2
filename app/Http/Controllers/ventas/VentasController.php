@@ -224,4 +224,98 @@ class VentasController extends Controller
 
         return redirect()->route('ventas.index')->with('success', 'Venta eliminada correctamente.');
     }
+
+public function metricas()
+{
+    // Total de ventas realizadas
+    $totalVentas = DB::table('ventas')->count();
+
+    // Obtener clientes y contar cuántas ventas se les hizo
+    $metricas = DB::table('clientes')
+        ->leftJoin('ventas', 'ventas.id_cliente', '=', 'clientes.id')
+        ->select(
+            'clientes.id',
+            'clientes.nombre',
+            DB::raw('COUNT(ventas.id) as cantidad_ventas')
+        )
+        ->groupBy('clientes.id', 'clientes.nombre')
+        ->get()
+        ->map(function ($item) use ($totalVentas) {
+            $item->porcentaje = $totalVentas > 0 
+                ? round(($item->cantidad_ventas / $totalVentas) * 100, 2)
+                : 0;
+            return $item;
+        });
+
+    if ($metricas->isEmpty()) {
+        $metricas = collect([
+            (object)[
+                'id' => null,
+                'nombre' => '',
+                'cantidad_ventas' => 0,
+                'porcentaje' => 0
+            ]
+        ]);
+    }
+
+    $labels = $metricas->pluck('nombre');
+    $cantidades = $metricas->pluck('cantidad_ventas');
+
+    return view('ventas.metricas', compact('metricas', 'totalVentas', 'labels', 'cantidades'));
+}
+
+// Métricas por rango de fechas
+public function metricasPorRango(Request $request)
+{
+    $request->validate([
+        'fecha_inicio' => 'required|date',
+        'fecha_fin' => 'required|date|after_or_equal:fecha_inicio',
+    ]);
+
+    $fechaInicio = $request->fecha_inicio;
+    $fechaFin = $request->fecha_fin;
+
+    $totalVentas = DB::table('ventas')
+        ->whereBetween('created_at', [$fechaInicio, $fechaFin])
+        ->count();
+
+    if ($totalVentas == 0) {
+        $metricas = collect();
+        $labels = collect();
+        $cantidades = collect();
+    } else {
+        $metricas = DB::table('clientes')
+            ->leftJoin('ventas', 'ventas.id_cliente', '=', 'clientes.id')
+            ->leftJoin('ventas_detalles', 'ventas_detalles.id_venta', '=', 'ventas.id')
+            ->leftJoin('productos', 'productos.id', '=', 'ventas_detalles.id_producto')
+            ->leftJoin('proveedores', 'proveedores.id', '=', 'productos.id_proveedores')
+            ->whereBetween('ventas.created_at', [$fechaInicio, $fechaFin])
+            ->select(
+                'clientes.id',
+                'clientes.nombre',
+                DB::raw('COUNT(DISTINCT ventas.id) as cantidad_ventas'),
+                DB::raw('SUM(productos.valor_venta * ventas_detalles.cantidad) as valor_total'),
+                DB::raw("GROUP_CONCAT(DISTINCT proveedores.nombre ORDER BY proveedores.nombre SEPARATOR ', ') as proveedores")
+            )
+            ->groupBy('clientes.id', 'clientes.nombre')
+            ->get()
+            ->map(function ($item) use ($totalVentas) {
+                $item->porcentaje = $totalVentas > 0 ? round(($item->cantidad_ventas / $totalVentas) * 100, 2) : 0;
+                $item->valor_total = $item->valor_total ?? 0;
+                $item->proveedores = $item->proveedores ?? '';
+                return $item;
+            });
+
+        $labels = $metricas->pluck('nombre');
+        $cantidades = $metricas->pluck('cantidad_ventas');
+    }
+
+    return view(
+        'ventas.rango',
+        compact('metricas', 'labels', 'cantidades', 'fechaInicio', 'fechaFin')
+    );
+}
+
+
+
 }

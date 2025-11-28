@@ -55,11 +55,11 @@
         </tfoot>
     </table>
 
-    <div class="centrar-div" style="display:flex; gap:10px; flex-wrap: wrap;">
+    <div class="button-grid">
 
             <form action="{{ route('ventas.edit', $venta->id) }}" method="GET">
                   <button type="submit" class="boton centrar-elemento" title="Editar">
-                      <span></span>Editar venta
+                      <span class="icono pencil 24"></span>Editar venta
                   </button>
             </form>
 
@@ -67,16 +67,16 @@
             @csrf
             @method('DELETE')
             <button type="submit" class="boton centrar-elemento" >
-                <span ></span> Eliminar venta
+                <span class="icono trash 24"></span> Eliminar venta
             </button>
             </form>
 
             <!-- Volver al índice -->
             <a href="{{ route('ventas.index') }}" class="boton centrar-elemento">
-                <span ></span> Volver al inicio
+                <span class="icono arrow-big-left 24"></span> Volver al inicio
             </a>
 
-        </div>
+    </div>
 </div>
 
 @include('includes.footer')

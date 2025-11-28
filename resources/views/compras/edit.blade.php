@@ -64,30 +64,25 @@
             @endforeach
         </div>
 
-        <!-- Botones agregar/eliminar productos -->
-        <div class="centrar-div" style="margin-top: 20px; display:flex; gap:10px; justify-content:center;">
-            <button type="button" id="agregarProducto" class="boton" style="background: #005E00">
-                <span class="icono circle-plus 20"></span> Agregar producto
-            </button>
-
-            <button type="button" id="eliminarProducto" class="boton" style="background:#c62828;">
-                <span class="icono trash 20"></span> Eliminar último
-            </button>
-        </div>
-
-        <!-- Botones de acción -->
-        <div class="centrar-div" style="display:flex; gap:10px; flex-wrap: wrap; justify-content:center; margin-top:20px;">
-
+        
+        <div class="button-grid centrar-div">
             <div class="centrar-div">
+                <button type="button" id="agregarProducto" class="boton">
+                    <span class="icono circle-plus 20"></span> Agregar producto
+                </button>
+
+                <button type="button" id="eliminarProducto" class="boton">
+                    <span class="icono trash 20"></span> Eliminar último
+                </button>
+
                 <button type="submit" class="boton centrar-elemento">
                     <span class="icono send 24"></span> Guardar cambios
                 </button>
-            </div>
 
-            <!-- Volver al índice -->
-            <a href="{{ route('compras.index') }}" class="boton centrar-elemento">
-                <span class="icono back 24"></span> Volver al inicio
-            </a>
+                <a href="{{ route('compras.index') }}" class="boton centrar-elemento">
+                    <span class="icono arrow 24"></span> Volver al inicio
+                </a>
+            </div>
         </div>
 
     
